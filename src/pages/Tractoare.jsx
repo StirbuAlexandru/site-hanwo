@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import "./Tractoare.css";
 
 import tractor1 from "../assets/images/tractoare/Tractor1_main.jpg";
-import tractor2 from "../assets/images/tractoare/tractor2_main.jpg";
-import tractor3 from "../assets/images/tractoare/tractor3_main.jpg";
-import tractor4 from "../assets/images/tractoare/tractor4_main.jpg";
-import tractor5 from "../assets/images/tractoare/tractor5_main.jpg";
-import tractor6 from "../assets/images/tractoare/tractor6_main.jpg";
+import tractor2 from "../assets/images/tractoare/Tractor2_main.jpg";
+import tractor3 from "../assets/images/tractoare/Tractor3_main.jpg";
+import tractor4 from "../assets/images/tractoare/Tractor4_main.jpg";
+import tractor5 from "../assets/images/tractoare/Tractor5_main.jpg";
+import tractor6 from "../assets/images/tractoare/Tractor6_main.jpg";
 import tractor7 from "../assets/images/tractoare/Tractor7_main.jpg"; // adăugat
 
 export default function Tractoare() {

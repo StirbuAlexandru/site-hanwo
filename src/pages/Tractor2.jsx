@@ -12,10 +12,10 @@ import tractor2_5 from "../assets/images/tractoare/Tractor2_5.jpg";
 
 // Miniaturi alte tractoare
 import tractor1_thumb from "../assets/images/tractoare/Tractor1_main.jpg";
-import tractor3_thumb from "../assets/images/tractoare/tractor3_main.jpg";
-import tractor4_thumb from "../assets/images/tractoare/tractor4_main.jpg";
-import tractor5_thumb from "../assets/images/tractoare/tractor5_main.jpg";
-import tractor6_thumb from "../assets/images/tractoare/tractor6_main.jpg";
+import tractor3_thumb from "../assets/images/tractoare/Tractor3_main.jpg";
+import tractor4_thumb from "../assets/images/tractoare/Tractor4_main.jpg";
+import tractor5_thumb from "../assets/images/tractoare/Tractor5_main.jpg";
+import tractor6_thumb from "../assets/images/tractoare/Tractor6_main.jpg";
 
 export default function Tractor2() {
   const [mainImage, setMainImage] = useState(tractor2_main);
