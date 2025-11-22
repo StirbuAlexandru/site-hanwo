@@ -2,7 +2,7 @@ import React from "react";
 import "./About.css";
 import desprenoi from "../assets/images/desprenoi.jpg";
 import desprenoi1 from "../assets/images/desprenoi1.jpg";
-import persoana from "../assets/images/agrorus-logo.png";
+import persoana from "../assets/images/Agrorus-logo.png";
 
 export default function About() {
   return (
