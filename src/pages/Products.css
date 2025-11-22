@@ -1,0 +1,211 @@
+.products-page {
+  padding: 120px 6%;
+  font-family: "Poppins", sans-serif;
+  background: #fafafa;
+}
+
+.products-page h1 {
+  text-align: center;
+  margin-bottom: 50px;
+  font-size: 2rem;
+  color: #111;
+  font-weight: 600;
+}
+
+.category-section {
+  margin-bottom: 70px;
+  position: relative;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.category-header h2 {
+  color: #c40017;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.view-tractors-btn {
+  background: #c40017;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.25s ease;
+}
+
+.view-tractors-btn:hover {
+  background: #a80015;
+}
+
+/* ----------- GRID STRUCTURE ----------- */
+.slider-container {
+  position: relative;
+}
+
+.products-grid {
+  display: grid;
+  /* Larger cards and let them stretch to fill the row to avoid big right gaps */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 28px;
+  align-items: start;
+  padding: 8px 0;
+  overflow-x: visible;
+}
+
+.products-grid::-webkit-scrollbar {
+  display: none;
+}
+
+/* ----------- PRODUCT CARD ----------- */
+.product-card,
+.see-more-card {
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  padding: 12px;
+  text-align: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 26px rgba(0,0,0,0.12);
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: contain; /* pentru imagini întregi */
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  padding: 6px;
+}
+
+.product-card h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #111;
+  margin-bottom: 6px;
+}
+
+.product-card .price {
+  font-weight: 600;
+  color: #c40017;
+  margin: 6px 0;
+}
+
+.product-card .desc {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* ----------- "VEZI MAI MULT" CARD ----------- */
+.see-more-card {
+  background: #c40017;
+  color: #fff;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.see-more-card:hover {
+  background: #a80015;
+}
+
+.grid-see-more {
+  /* make the 'Vezi mai mult' card span full row and center below products */
+  grid-column: 1 / -1;
+  justify-self: center;
+  margin-top: 18px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  background: #c40017;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* hide the left arrow if present (we removed it in JSX but keep this as safeguard) */
+.scroll-btn.left { display: none; }
+
+/* ----------- SCROLL BUTTONS ----------- */
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 1.2rem;
+  color: #111;
+  transition: all 0.2s ease;
+}
+
+.scroll-btn.left {
+  left: -15px;
+}
+
+.scroll-btn.right {
+  right: -15px;
+}
+
+.scroll-btn:hover {
+  background: #c40017;
+  color: #fff;
+}
+
+/* ----------- RESPONSIVE ----------- */
+@media (max-width: 1024px) {
+  .products-grid {
+    grid-template-rows: unset;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    overflow-x: visible;
+  }
+
+  .scroll-btn {
+    display: none;
+  }
+
+  .product-card,
+  .see-more-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .products-page {
+    padding: 100px 4%;
+  }
+
+  .products-page h1 {
+    font-size: 1.6rem;
+  }
+
+  .category-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .product-card img {
+    height: 140px;
+  }
+}
+}

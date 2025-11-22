@@ -1,0 +1,641 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+.home {
+  width: 100%;
+  overflow-x: hidden;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ================= HERO SECTION ================= */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Buton principal */
+.hero-button {
+  display: inline-block;
+  padding: 20px 50px;
+  border: 3px solid #ffffff;
+  color: #ffffff;
+  font-size: 1.8rem;
+  font-weight: 600;
+  background-color: transparent;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.hero-button:hover {
+  background-color: #c40017;
+  border-color: #c40017;
+  color: #ffffff;
+}
+
+/* ================= SECȚIUNEA PRODUSE ================= */
+.produse {
+  padding: 100px 5% 150px 5%;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  margin-bottom: 60px;
+  color: #111;
+  position: relative;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background-color: #c40017;
+  margin: 15px auto 0;
+  border-radius: 2px;
+}
+
+/* Categorii în linie */
+.categorii-linie {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.categorie {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.categorie h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.categorie:hover h3 {
+  color: #c40017;
+}
+
+/* Toggle */
+.toggle-btn {
+  width: 60px;
+  height: 30px;
+  background-color: #bbb;
+  border-radius: 50px;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-btn .circle {
+  position: absolute;
+  top: 4px;
+  left: 5px;
+  width: 22px;
+  height: 22px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggle-btn.on {
+  background-color: #c40017;
+}
+
+.toggle-btn.on .circle {
+  left: 33px;
+}
+
+/* Detalii */
+.detalii {
+  margin-top: 60px;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.detalii p {
+  color: #444;
+  font-size: 1.1rem;
+  margin-bottom: 40px;
+}
+
+/* ================= CARUSEL ================= */
+.carusel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+.imagini-carusel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  transition: transform 0.8s cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+.imagine-item {
+  text-align: center;
+  opacity: 0.5;
+  transform: scale(0.9);
+  transition: all 0.6s cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+.imagine-item.center {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.imagine-item img {
+  width: 320px;
+  height: 220px;
+  border-radius: 0;
+  object-fit: cover;
+  box-shadow: none;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.imagine-item.center img {
+  transform: scale(1.05);
+}
+
+.imagine-item p {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Săgeți carusel */
+.arrow {
+  background: rgba(0, 0, 0, 0.2);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.arrow.left {
+  left: 20px;
+}
+
+.arrow.right {
+  right: 20px;
+}
+
+.arrow:hover {
+  background: #c40017;
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* ================= SECȚIUNEA ABOUT ================= */
+.about-section {
+  padding: 100px 10%;
+  background: #f8f8f8;
+  text-align: center;
+  color: #1a1a1a;
+}
+
+
+.about-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #c40017;
+}
+
+.about-line {
+  width: 60px;
+  height: 4px;
+  background-color: #c40017;
+  margin: 15px auto 30px auto;
+  border-radius: 2px;
+}
+
+.about-text {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #333;
+  margin-bottom: 60px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* (Reverted to previous layout: about content is centered by default) */
+
+/* Statisticile */
+.about-stats {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+.stat-item {
+  background: #fff;
+  border-radius: 20px;
+  padding: 30px 50px;
+  box-shadow: 0 5px 20px rgba(150, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  flex: 1;
+  min-width: 200px;
+  max-width: 230px;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(200, 0, 0, 0.25);
+}
+
+.stat-item h3 {
+  font-size: 2.5rem;
+  color: #d61a1f;
+  font-weight: 700;
+}
+
+.stat-item p {
+  color: #444;
+  font-size: 1rem;
+  margin-top: 8px;
+}
+
+/* ================= SECȚIUNEA EVENIMENTE ================= */
+.evenimente {
+  padding: 100px 5%;
+  background-color: #fff;
+  text-align: center;
+  position: relative;
+}
+
+.evenimente-header h2 {
+  font-size: 2.4rem;
+  color: #c40017;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.evenimente-header p {
+  color: #555;
+  font-size: 1.1rem;
+  margin-bottom: 60px;
+}
+
+.evenimente-slider {
+  position: relative;
+  width: 80%;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 25px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.evenimente-wrapper {
+  display: flex;
+  transition: transform 0.8s cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+.eveniment-item {
+  min-width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.eveniment-item img {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 25px;
+  filter: brightness(0.9);
+  transition: transform 1s ease, filter 0.6s ease;
+}
+
+.eveniment-item:hover img {
+  transform: scale(1.05);
+  filter: brightness(1);
+}
+
+.eveniment-item::after {
+  content: attr(alt);
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(196, 0, 23, 0.8);
+  color: #fff;
+  padding: 10px 25px;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.eveniment-item:hover::after {
+  opacity: 1;
+}
+
+.evenimente-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(196, 0, 23, 0.7);
+  color: #fff;
+  border: none;
+  font-size: 2rem;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  z-index: 10;
+}
+
+.evenimente-arrow:hover {
+  background-color: #c40017;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.evenimente-arrow.left {
+  left: 20px;
+}
+
+.evenimente-arrow.right {
+  right: 20px;
+}
+
+.evenimente-indicatori {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  background-color: #bbb;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background-color: #c40017;
+  transform: scale(1.2);
+}
+
+/* ================= SECȚIUNEA RECENZII ================= */
+.recenzii-section {
+  padding: 100px 10%;
+  background-color: #f8f8f8;
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 0.8s ease;
+}
+
+.recenzii-titlu {
+  text-align: center;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #c40017;
+  letter-spacing: 1px;
+  margin-bottom: 60px;
+  position: relative;
+}
+
+.recenzii-titlu::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background-color: #c40017;
+  margin: 20px auto 0;
+  border-radius: 2px;
+}
+
+.recenzii-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+
+.recenzii-stanga {
+  flex: 1;
+  min-width: 300px;
+  max-width: 40%;
+}
+
+.recenzii-descriere {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #333;
+  text-align: left;
+  animation: slideLeft 0.8s ease;
+}
+
+.recenzii-dreapta {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  max-width: 55%;
+}
+
+.recenzii-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 100%;
+  overflow: hidden;
+  animation: slideUp 0.8s ease;
+}
+
+.recenzie-card {
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 18px;
+  box-shadow: 0 5px 20px rgba(196, 0, 23, 0.15);
+  transition: all 0.4s ease;
+  position: relative;
+}
+
+.recenzie-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(196, 0, 23, 0.3);
+}
+
+.recenzie-text {
+  font-style: italic;
+  color: #333;
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+.recenzie-card h4 {
+  color: #c40017;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 3px;
+}
+
+.recenzie-card span {
+  font-size: 0.95rem;
+  color: #777;
+}
+
+/* Săgeți pentru glisare */
+.recenzie-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(196, 0, 23, 0.8);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 5;
+}
+
+.recenzie-arrow:hover {
+  background-color: #c40017;
+  transform: translateY(-50%) scale(1.15);
+  box-shadow: 0 6px 15px rgba(196, 0, 23, 0.3);
+}
+
+.recenzie-arrow.left {
+  left: -60px;
+}
+
+.recenzie-arrow.right {
+  right: -60px;
+}
+
+/* ================= ANIMAȚII ================= */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 992px) {
+  .recenzii-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .recenzii-stanga {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .recenzii-descriere {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .recenzii-dreapta {
+    max-width: 100%;
+  }
+
+  .recenzie-arrow.left {
+    left: 0;
+  }
+
+  .recenzie-arrow.right {
+    right: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 0 12px;
+  }
+
+  .about-text {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .about-image {
+    margin-top: 30px;
+  }
+  .recenzie-card {
+    padding: 20px;
+  }
+
+  .recenzie-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.3rem;
+  }
+
+  .recenzii-titlu {
+    font-size: 2rem;
+  }
+}
+
+
+

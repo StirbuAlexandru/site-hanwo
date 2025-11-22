@@ -1,0 +1,19 @@
+{
+  "categories": [
+    {
+      "name": "Tractoare",
+      "slug": "tractoare",
+      "file": "tractoare.json"
+    },
+    {
+      "name": "Recoltătoare de porumb",
+      "slug": "recoltatoare-de-porumb",
+      "file": "recoltatoare-de-porumb.json"
+    },
+    {
+      "name": "Unelte agricole",
+      "slug": "unelte",
+      "file": "unelte.json"
+    }
+  ]
+}

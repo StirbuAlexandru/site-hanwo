@@ -1,0 +1,363 @@
+/* About.css — versiune completă actualizată */
+/* Am marcat modificările cu "/* ADĂUGAT" */
+
+.about-page {
+  font-family: "Poppins", sans-serif;
+  color: #222;
+  background-color: #fff;
+  overflow-x: hidden; /* ADĂUGAT: evită scroll orizontal la animații */
+}
+
+/* === SECTIUNILE TEXT + IMAGINE === */
+.about-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px 10%;
+  gap: 40px;
+
+  /* ADĂUGAT: efect de apariție (fade + translate) */
+  opacity: 0; /* ADĂUGAT */
+  transform: translateY(30px); /* ADĂUGAT */
+  animation: fadeInUp 0.9s ease forwards; /* ADĂUGAT */
+}
+
+.about-section.reverse {
+  flex-direction: row-reverse;
+}
+
+.about-text {
+  flex: 1;
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.about-text h2 {
+  color: #c40017;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+  position: relative; /* ADĂUGAT: pentru pseudo-element */
+}
+
+/* ADĂUGAT: linie decorativă subtilă sub titlu */
+.about-text h2::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background-color: #c40017;
+  margin-top: 10px;
+  border-radius: 2px;
+}
+
+.about-image {
+  flex: 1;
+  text-align: center;
+}
+
+.about-image img {
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transition: transform 0.4s ease;
+}
+
+.about-image img:hover {
+  transform: scale(1.03);
+}
+
+/* === SECTIUNEA ROSIE CU ICONITE === */
+.about-highlight-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 10% 100px;
+}
+
+.about-highlight {
+  background-color: #c40017;
+  color: #fff;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  padding: 60px 80px;
+  border-top-left-radius: 80px;
+  border-bottom-left-radius: 80px;
+  max-width: 70%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.highlight-item {
+  text-align: left;
+  width: 45%;
+}
+
+.highlight-item .icon {
+  background: #fff;
+  color: #c40017;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.3);
+}
+
+.highlight-item p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  max-width: 400px;
+}
+
+/* === SECTIUNEA CHAIRMAN’S SPEECH === */
+.chairman-section {
+  padding: 100px 10%;
+  background: #fff;
+}
+
+.chairman-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+
+.chairman-text {
+  flex: 1 1 50%;
+}
+
+.chairman-text h2 {
+  font-size: 36px;
+  color: #c40017;
+  margin-bottom: 25px;
+  font-weight: 700;
+  position: relative;
+}
+
+/* ADĂUGAT: linie decorativă și pentru secțiunea Președintelui */
+.chairman-text h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  width: 80px;
+  height: 3px;
+  background-color: #c40017;
+  border-radius: 2px;
+}
+
+.chairman-text p {
+  font-size: 17px;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.chairman-signature {
+  margin-top: 30px;
+  font-style: italic;
+  font-weight: 600;
+  color: #c40017;
+  position: relative;
+}
+
+.chairman-signature::before {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background-color: #c40017;
+  border-radius: 3px;
+}
+
+/* === IMAGINE CU FUNDAL ROSU DOAR AICI === */
+.chairman-image-wrapper {
+  position: relative;
+  flex: 1 1 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-bg {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 85%;
+  height: 85%;
+  background-color: #c40017;
+  border-radius: 20px;
+  z-index: 0;
+}
+
+.chairman-image {
+  position: relative;
+  z-index: 1;
+}
+
+.chairman-image img {
+  width: 150%;
+  max-width: 420px;
+  border-radius: 20px;
+  object-fit: cover;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transition: transform 0.4s ease, box-shadow 0.3s ease;
+}
+
+.chairman-image img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* === SECTIUNEA INOVAȚIE (Innovation System) === */ /* ADĂUGAT */
+.innovation-section {
+  padding: 80px 10%;
+  background-color: #f9f9f9;
+}
+
+.innovation-section h2 {
+  color: #c40017;
+  font-size: 2rem;
+  margin-bottom: 40px;
+  font-weight: 700;
+  position: relative;
+}
+
+/* Linie decorativă sub titlu */
+.innovation-section h2::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background-color: #c40017;
+  margin-top: 10px;
+  border-radius: 2px;
+}
+
+.innovation-container {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.innovation-item {
+  flex: 1 1 45%;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  /* ADĂUGAT: animație fadeInUp */
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.9s ease forwards;
+}
+
+.innovation-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.innovation-item h3 {
+  color: #c40017;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.innovation-item p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* === ANIMATII === */
+/* ADĂUGAT: animație fadeInUp folosită pentru toate secțiunile */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+  .about-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 5%;
+    transform: none;
+    opacity: 1;
+    animation: none;
+  }
+
+  .about-section.reverse {
+    flex-direction: column;
+  }
+
+  .about-highlight-container {
+    justify-content: center;
+    padding: 0 5% 80px;
+  }
+
+  .about-highlight {
+    flex-direction: column;
+    border-radius: 40px;
+    max-width: 100%;
+    padding: 50px 30px;
+  }
+
+  .highlight-item {
+    width: 100%;
+    text-align: center;
+  }
+
+  .highlight-item .icon {
+    margin: 0 auto 20px;
+  }
+
+  .chairman-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .chairman-text {
+    order: 2;
+  }
+
+  .chairman-image-wrapper {
+    order: 1;
+    margin-bottom: 30px;
+  }
+
+  .chairman-signature::before {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .image-bg {
+    display: none;
+  }
+
+  /* Responsive Innovation System */
+  .innovation-container {
+    flex-direction: column;
+  }
+
+  .innovation-item {
+    flex: 1 1 100%;
+    margin-bottom: 30px;
+  }
+}

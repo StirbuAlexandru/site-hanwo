@@ -1,0 +1,75 @@
+{
+  "categories": [
+    {
+      "name": "Tractoare",
+      "products": [
+        {
+          "name": "Tractor Hanwo 120HP",
+          "slug": "tractor-hanwo-120hp",
+          "price": "35000",
+          "image": "/images/tractor1.jpg",
+          "description": "Tractor puternic de 120 cai putere, ideal pentru lucrări agricole medii și mari. Include sistem hidraulic avansat, tracțiune 4x4 și cabină confortabilă cu aer condiționat."
+        },
+        {
+          "name": "Tractor Hanwo 180HP",
+          "slug": "tractor-hanwo-180hp",
+          "price": "48000",
+          "image": "/images/tractor2.jpg",
+          "description": "Model robust cu motor de 180 cai putere, transmisie automată, consum redus și sistem de suspensie îmbunătățit pentru teren accidentat."
+        },
+        {
+          "name": "Tractor Hanwo 300HP",
+          "slug": "tractor-hanwo-300hp",
+          "price": "68000",
+          "image": "/images/tractor3.jpg",
+          "description": "Tractor de mare putere, potrivit pentru ferme industriale. Dotat cu motor turbo și sistem de control electronic al tracțiunii."
+        }
+      ]
+    },
+    {
+      "name": "Recoltare porumb",
+      "products": [
+        {
+          "name": "Combină Hanwo C600",
+          "slug": "combina-hanwo-c600",
+          "price": "70000",
+          "image": "/images/combina1.jpg",
+          "description": "Combină performantă pentru recoltarea porumbului, eficientă și fiabilă, cu motor puternic și sistem de curățare integrat."
+        },
+        {
+          "name": "Combină Hanwo C800",
+          "slug": "combina-hanwo-c800",
+          "price": "89000",
+          "image": "/images/combina2.jpg",
+          "description": "Versiune avansată a modelului C600, oferă o viteză de recoltare crescută și o capacitate de stocare mai mare."
+        }
+      ]
+    },
+    {
+      "name": "Unelte agricole",
+      "products": [
+        {
+          "name": "Plug 4 brazde Hanwo",
+          "slug": "plug-4-brazde-hanwo",
+          "price": "4200",
+          "image": "/images/plug.jpg",
+          "description": "Plug rezistent cu 4 brazde, ideal pentru prelucrarea solului în profunzime. Construcție solidă și durabilă."
+        },
+        {
+          "name": "Grapă rotativă Hanwo GR-500",
+          "slug": "grapa-rotativa-hanwo-gr-500",
+          "price": "3600",
+          "image": "/images/grapa.jpg",
+          "description": "Grapă rotativă performantă pentru nivelarea și afânarea solului, potrivită pentru toate tipurile de teren."
+        },
+        {
+          "name": "Remorcă agricolă Hanwo 5T",
+          "slug": "remorca-agricola-hanwo-5t",
+          "price": "2900",
+          "image": "/images/remorca.jpg",
+          "description": "Remorcă de 5 tone, destinată transportului de materiale agricole. Echipată cu sistem de frânare hidraulică."
+        }
+      ]
+    }
+  ]
+}

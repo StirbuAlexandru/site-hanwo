@@ -1,0 +1,28 @@
+{
+  "categories": [
+    {
+      "name": "Fertilizatori",
+      "subcategories": [
+        { "name": "Fertilizatori lichizi", "path": "/products/fertilizatori/lichizi" },
+        { "name": "Fertilizatori solizi", "path": "/products/fertilizatori/solizi" },
+        { "name": "Microelemente", "path": "/products/fertilizatori/microelemente" }
+      ]
+    },
+    {
+      "name": "Semințe",
+      "subcategories": [
+        { "name": "Cereale", "path": "/products/seminte/cereale" },
+        { "name": "Legume", "path": "/products/seminte/legume" },
+        { "name": "Plante tehnice", "path": "/products/seminte/plante-tehnice" }
+      ]
+    },
+    {
+      "name": "Instrumente",
+      "subcategories": [
+        { "name": "Mașini agricole", "path": "/products/instrumente/masini-agricole" },
+        { "name": "Ustensile", "path": "/products/instrumente/ustensile" },
+        { "name": "Irigare", "path": "/products/instrumente/irigare" }
+      ]
+    }
+  ]
+}

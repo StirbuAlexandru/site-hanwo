@@ -1,0 +1,251 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+/* ---------- Header: poziționare și fundal ---------- */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0); /* transparent inițial */
+  color: #111; /* text principal */
+  z-index: 1000;
+  transition: background 0.28s ease, box-shadow 0.28s ease, transform 0.28s ease;
+  font-family: "Poppins", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.header.scrolled {
+  background: rgba(255, 255, 255, 1); /* opac la scroll */
+  box-shadow: 0 6px 20px rgba(17, 17, 17, 0.06);
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 6%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* LOGO */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+
+/* NAVIGAȚIE PRINCIPALĂ */
+.nav ul {
+  list-style: none;
+  display: flex; /* meniu principal orizontal */
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav ul li {
+  position: relative;
+}
+
+.nav ul li a,
+.nav ul li button,
+.nav ul li .products-btn {
+  text-decoration: none;
+  color: #111;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 6px; /* mărime uniformă */
+  font-size: 0.98rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Culoarea la hover: roșu specific (#c40017) */
+.nav ul li a:hover,
+.nav ul li button:hover,
+.nav ul li a.active,
+.nav ul li a.active:visited {
+  color: #c40017;
+}
+
+.nav ul li a::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #c40017;
+  transition: width 0.25s ease;
+}
+
+.nav ul li a:hover::after {
+  width: 100%;
+}
+
+/* ========== MEGA MENU ========== */
+
+.has-mega {
+  position: relative;
+}
+
+/* ---------- Mega menu (hover pe desktop) ---------- */
+.has-mega .mega {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  transform: translateX(-12px) translateY(10px);
+  background: #ffffff;
+  color: #111;
+  padding: 18px 18px;
+  box-shadow: 0 12px 34px rgba(17, 17, 17, 0.08);
+  border-radius: 6px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.28s ease, visibility 0.28s ease, transform 0.28s ease;
+  min-width: 340px;
+  max-width: 560px;
+  overflow: hidden; /* ✅ fără bara de scroll */
+  z-index: 1100;
+}
+
+.has-mega .mega.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-12px) translateY(14px);
+  animation: fadeInMega 0.25s ease forwards; /* ✅ fade-in elegant */
+}
+
+@keyframes fadeInMega {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(14px);
+  }
+}
+
+.mega-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 260px;
+  max-width: 480px;
+}
+
+.mega-column {
+  min-width: 0;
+  padding: 6px 8px;
+  border-radius: 4px;
+  transition: background 0.18s ease;
+}
+
+.mega-column:hover {
+  background: rgba(196, 0, 23, 0.03);
+}
+
+.mega-column + .mega-column {
+  margin-top: 4px;
+}
+
+.mega-title {
+  font-size: 0.95rem;
+  margin: 0 0 6px 0;
+  font-weight: 600;
+  color: #111;
+}
+
+/* Mobile submeniul Produse (apare în interiorul nav-ului) */
+.mobile-sub {
+  display: none;
+}
+
+.mobile-sub.open {
+  display: block;
+  padding: 10px 0 0 0;
+}
+
+.mobile-cat {
+  padding: 8px 0;
+}
+
+.mobile-cat-name {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+/* Toggle mobile */
+.menu-toggle {
+  display: none;
+  color: #111;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 900px) {
+  /* Buton burger vizibil */
+  .menu-toggle {
+    display: block;
+  }
+
+  /* Nav devine drawer pe mobil */
+  .nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: 320px;
+    max-width: 90vw;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 70px 20px;
+    gap: 18px;
+    transition: right 0.32s cubic-bezier(.2,.9,.2,1);
+    box-shadow: -10px 0 30px rgba(17,17,17,0.06);
+  }
+
+  .nav.open {
+    right: 0;
+  }
+
+  .nav ul {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .nav ul li a,
+  .nav ul li button,
+  .nav ul li .products-btn {
+    font-size: 1.05rem;
+  }
+
+  /* Ascundem mega menu pe mobil */
+  .has-mega .mega {
+    display: none;
+  }
+
+  .mobile-sub ul {
+    padding-left: 12px;
+  }
+}
+
+/* Clasă pentru link activ */
+.active {
+  color: #c40017 !important;
+}
