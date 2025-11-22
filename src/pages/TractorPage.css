@@ -192,3 +192,8 @@
   50% { transform: scale(1.02); }
   100% { transform: scale(1); }
 }
+@media (max-width: 768px) {
+  .main-image img {
+    max-width: 100%;
+  }
+}

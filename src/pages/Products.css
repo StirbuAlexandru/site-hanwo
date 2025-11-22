@@ -51,19 +51,12 @@
 
 .products-grid {
   display: grid;
-  /* Larger cards and let them stretch to fill the row to avoid big right gaps */
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 28px;
   align-items: start;
   padding: 8px 0;
-  overflow-x: visible;
 }
 
-.products-grid::-webkit-scrollbar {
-  display: none;
-}
-
-/* ----------- PRODUCT CARD ----------- */
 .product-card,
 .see-more-card {
   width: 100%;
@@ -73,9 +66,6 @@
   padding: 12px;
   text-align: center;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
-.product-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 26px rgba(0,0,0,0.12);
 }
 
 .product-card:hover {
@@ -86,7 +76,7 @@
 .product-card img {
   width: 100%;
   height: 160px;
-  object-fit: contain; /* pentru imagini întregi */
+  object-fit: contain;
   border-radius: 10px;
   margin-bottom: 10px;
   background-color: #fff;
@@ -126,7 +116,6 @@
 }
 
 .grid-see-more {
-  /* make the 'Vezi mai mult' card span full row and center below products */
   grid-column: 1 / -1;
   justify-self: center;
   margin-top: 18px;
@@ -138,51 +127,10 @@
   font-weight: 600;
 }
 
-/* hide the left arrow if present (we removed it in JSX but keep this as safeguard) */
-.scroll-btn.left { display: none; }
-
-/* ----------- SCROLL BUTTONS ----------- */
-.scroll-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: #fff;
-  border: none;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 10;
-  font-size: 1.2rem;
-  color: #111;
-  transition: all 0.2s ease;
-}
-
-.scroll-btn.left {
-  left: -15px;
-}
-
-.scroll-btn.right {
-  right: -15px;
-}
-
-.scroll-btn:hover {
-  background: #c40017;
-  color: #fff;
-}
-
 /* ----------- RESPONSIVE ----------- */
 @media (max-width: 1024px) {
   .products-grid {
-    grid-template-rows: unset;
-    grid-auto-flow: row;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    overflow-x: visible;
-  }
-
-  .scroll-btn {
-    display: none;
   }
 
   .product-card,
@@ -207,5 +155,4 @@
   .product-card img {
     height: 140px;
   }
-}
 }

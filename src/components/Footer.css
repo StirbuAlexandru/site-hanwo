@@ -9,7 +9,7 @@
 }
 
 .footer-overlay {
-  background-color: rgba(128, 0, 0, 0.78); /* roșu închis transparent */
+  background-color: rgba(128, 0, 0, 0.78);
   padding: 80px 8% 30px 8%;
 }
 
@@ -168,8 +168,39 @@
   opacity: 1;
 }
 
-/* Responsivitate */
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 1024px) {
+  .footer-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+}
+
 @media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .footer-col {
+    width: 100%;
+    text-align: center;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+
+  .login-form input,
+  .login-form button {
+    width: 100%;
+  }
+
+  .footer-bottom {
+    font-size: 0.85rem;
+    padding-top: 20px;
+  }
+
   .anpc-logos {
     flex-direction: column;
     gap: 20px;
@@ -177,8 +208,5 @@
 
   .anpc-logos img {
     height: 50px;
-    margin: 0 auto;
   }
 }
-
-
