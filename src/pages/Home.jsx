@@ -5,10 +5,10 @@ import imagineagrorus from "../assets/images/tractor-camp.jpg";
 import imagineAbout from "../assets/images/locatie.jpg";
 
 
-import tractor1 from "../assets/images/tractoare/tractor1_main.jpg";
-import tractor2 from "../assets/images/tractoare/tractor2_main.jpg";
-import tractor3 from "../assets/images/tractoare/tractor3_main.jpg";
-import tractor4 from "../assets/images/tractoare/tractor4_main.jpg";
+import tractor1 from "../assets/images/tractoare/Tractor1_main.jpg";
+import tractor2 from "../assets/images/tractoare/Tractor2_main.jpg";
+import tractor3 from "../assets/images/tractoare/Tractor3_main.jpg";
+import tractor4 from "../assets/images/tractoare/Tractor4_main.jpg";
 
 
 
