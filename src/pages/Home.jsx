@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./Home.css";
-import imagineagrorus from "../assets/images/tractor-camp.jpg";
-import imagineAbout from "../assets/images/locatie.jpg";
+import imagineagrorus from "../assets/images/tractoracasa.jpg";
+import imagineAbout from "../assets/images/sediu.png";
 
 
 import tractor1 from "../assets/images/tractoare/Tractor1_main.jpg";

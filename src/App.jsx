@@ -1,8 +1,11 @@
+// App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
+import ScrollTopButton from "./components/ScrollTopButton";
 
 import Home from "./pages/Home";
 import Tractoare from "./pages/Tractoare";
@@ -21,6 +24,7 @@ import Contact from "./pages/Contact";
 export default function App() {
   return (
     <Router>
+      <ScrollToTop /> {/* → urcă automat sus la schimbarea rutei */}
       <Header />
 
       <Routes>
@@ -45,6 +49,7 @@ export default function App() {
       </Routes>
 
       <Footer />
+      <ScrollTopButton /> {/* → buton fix să urce sus */}
     </Router>
   );
 }

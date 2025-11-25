@@ -1,6 +1,8 @@
 /* ===================== Pagina produs ===================== */
 .product-page {
   padding-top: 120px; /* elimină suprapunerea cu header */
+  padding-left: 20px; /* spațiu lateral */
+  padding-right: 20px; /* spațiu lateral */
 }
 
 /* ===================== Chenare secțiuni cu animație ===================== */
@@ -158,6 +160,9 @@
   line-height: 1.6;
   margin-top: 15px;
   color: #333;
+  padding-right: 20px; /* spațiu față de marginea dreaptă */
+  border-right: 2px solid #c40017; /* bordură dreapta */
+  padding-bottom: 20px;
 }
 
 /* ===================== Back link ===================== */
@@ -192,8 +197,15 @@
   50% { transform: scale(1.02); }
   100% { transform: scale(1); }
 }
+
+/* ===================== Responsive ===================== */
 @media (max-width: 768px) {
   .main-image img {
     max-width: 100%;
+  }
+
+  .product-description {
+    border-right: none; /* eliminăm bordura pe ecrane mici */
+    padding-right: 0;
   }
 }
