@@ -23,7 +23,7 @@ export default function Footer() {
             <h3>Contact</h3>
             <p>HANWO România</p>
             <p>Str. Principală, nr.151, sat Gara Milișăuți, Suceava</p>
-            <p>Tel: +40 759 076 654</p>
+            <p>Tel: +40 741 220 030</p>
             <p>Email: agrorus.brend@gmail.com</p>
           </div>
 

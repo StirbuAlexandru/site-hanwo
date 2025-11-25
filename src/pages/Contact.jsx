@@ -88,7 +88,7 @@ export default function Contact() {
 						<div className="icon"><FaPhone /></div>
 						<div>
 							<h3>Telefon</h3>
-							<p><a href="tel:+40745123456">+40 759 076 654</a></p>
+							<p><a href="tel:+40745123456">+40 741 220 030</a></p>
 						</div>
 					</div>
 

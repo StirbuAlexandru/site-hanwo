@@ -6,8 +6,9 @@
   top: 0;
   left: 0;
   width: 100%;
-  background: rgba(255, 255, 255, 0); /* transparent inițial */
-  color: #111; /* text principal */
+  color: rgba(196, 0, 23, 0.78);
+ /* transparent inițial */
+  color: #d62a32; /* text principal */
   z-index: 1000;
   transition: background 0.28s ease, box-shadow 0.28s ease, transform 0.28s ease;
   font-family: "Poppins", sans-serif;
@@ -49,6 +50,8 @@
   margin: 0;
   padding: 0;
   align-items: center;
+  color: rgba(196, 0, 23, 0.78);
+
 }
 
 .nav ul li {
@@ -59,7 +62,7 @@
 .nav ul li button,
 .nav ul li .products-btn {
   text-decoration: none;
-  color: #111;
+  color: #d62a32;
   font-weight: 500;
   background: none;
   border: none;
@@ -144,6 +147,8 @@
   gap: 8px;
   min-width: 260px;
   max-width: 480px;
+  color: rgba(196, 0, 23, 0.78);
+
 }
 
 .mega-column {

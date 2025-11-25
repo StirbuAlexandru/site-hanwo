@@ -7,13 +7,6 @@ import tractor1 from "../assets/images/tractoare/tractor1.jpg";
 import tractor2 from "../assets/images/tractoare/tractor2.jpg";
 import tractor3 from "../assets/images/tractoare/tractor3.jpg";
 
-import recoltatoare1 from "../assets/images/recoltatoare/recoltatoare1.jpg";
-import recoltatoare2 from "../assets/images/recoltatoare/recoltatoare2.jpg";
-import recoltatoare3 from "../assets/images/recoltatoare/recoltatoare3.jpg";
-
-import uneala1 from "../assets/images/unelte/uneala1.jpg";
-import unealta2 from "../assets/images/unelte/unealta2.jpg";
-import placeholder from "../assets/images/tractor-camp.jpg";
 
 export default function Produse() {
   const scrollRefs = {

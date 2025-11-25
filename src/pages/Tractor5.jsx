@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./TractorPage.css";
 
-// Imagini simulate pentru Tractor6
-import tractor6_main from "../assets/images/tractoare/Tractor6_main.jpg";
-import tractor6_1 from "../assets/images/tractoare/Tractor6_1.jpg";
-import tractor6_2 from "../assets/images/tractoare/Tractor6_2.jpg";
-import tractor6_3 from "../assets/images/tractoare/Tractor6_3.jpg";
+// Imagini Tractor 604 + încărcător frontal
+import tractor5_main from "../assets/images/tractoare/Tractor5_main.jpg";
+import tractor5_1 from "../assets/images/tractoare/Tractor5_1.jpg";
+import tractor5_2 from "../assets/images/tractoare/Tractor5_2.jpg";
+import tractor5_3 from "../assets/images/tractoare/Tractor5_3.jpg";
+import tractor5_4 from "../assets/images/tractoare/Tractor5_4.jpg";
+import tractor5_5 from "../assets/images/tractoare/Tractor5_5.jpg";
 
 // Miniaturi alte tractoare
 import tractor1_thumb from "../assets/images/tractoare/Tractor1_main.jpg";
@@ -15,43 +17,16 @@ import tractor3_thumb from "../assets/images/tractoare/Tractor3_main.jpg";
 import tractor4_thumb from "../assets/images/tractoare/Tractor4_main.jpg";
 import tractor5_thumb from "../assets/images/tractoare/Tractor5_main.jpg";
 
-export default function Tractor6() {
-  const [mainImage, setMainImage] = useState(tractor6_main);
-  const images = [tractor6_main, tractor6_1, tractor6_2, tractor6_3];
-
-  const specs = {
-    "Motor": "YN4H055-30VE",
-    "Tip motor": "Vertical, răcit cu apă, în 4 timpi",
-    "Putere nominală/maximă": "36,8 kW / 50 CP",
-    "Turație nominală/maximă": "2400 rpm",
-    "Rezervor combustibil": "40 L",
-    "Lungime totală": "3810 mm",
-    "Lățime": "1495 mm",
-    "Înălțime": "2596 mm (cu bară antiruliu)",
-    "Ampatament": "1809 mm",
-    "Gardă minimă la sol": "215 mm",
-    "Bandă față": "1160 mm",
-    "Bandă spate": "1200 mm",
-    "Greutate": "2260 kg",
-    "Ambreiaj": "cu frecare uscată, cu două trepte",
-    "Anvelope față": "280/70R16",
-    "Anvelope spate": "360/71R24",
-    "Direcție": "hidraulică",
-    "Transmisie": "cu trepte de viteză, 8 înainte și 8 înapoi + schimbare sincronizată",
-    "Debit hidraulic": "36 L/min",
-    "Sistem de control hidraulic": "semi-divizat, ridicare reglabilă într-o singură poziție",
-    "Comandă spate": "două grupuri, cuplaj rapid hidraulic",
-    "Putere priză de putere": "540/1000",
-    "Tracțiune": "4×4 (4WD)",
-    "Viteză maximă": "1,99–28,37 km/h"
-  };
+export default function Tractor5() {
+  const [mainImage, setMainImage] = useState(tractor5_main);
+  const images = [tractor5_main, tractor5_1, tractor5_2, tractor5_3, tractor5_4, tractor5_5];
 
   const otherTractors = [
     { id: 1, name: "Tractor 50 CAI HANWO 504, INMATRICULABIL 4X4 AC", thumb: tractor1_thumb },
-    { id: 2, name: "Tractor 65 CAI HANWO 604, 4X4, STAGE 5+CARTE RAR INCLUSA", thumb: tractor2_thumb },
+    { id: 2, name: "Tractor 65 CAI HANWO 604, 4X4, STAGE 5 + CARTE RAR INCLUSA", thumb: tractor2_thumb },
     { id: 3, name: "Tractor 75 CAI HANWO 704, 4X4, STAGE 5 + CARTE RAR INCLUSA", thumb: tractor3_thumb },
     { id: 4, name: "Tractor 50 CAI HANWO 504, 4X4, STAGE 5 cu încărcător frontal + CARTE RAR INCLUSA", thumb: tractor4_thumb },
-    { id: 5, name: "Tractor HANWO 604, 65 CAI, 4X4, STAGE 5 cu încărcător frontal", thumb: tractor5_thumb }
+    { id: 5, name: "Tractor HANWO 604, 65 CP, 4×4, Euro 5 + Încărcător frontal", thumb: tractor5_thumb }
   ];
 
   return (
@@ -60,7 +35,7 @@ export default function Tractor6() {
 
       {/* Imagine principală */}
       <div className="main-image">
-        <img src={mainImage} alt="Tractor HANWO" />
+        <img src={mainImage} alt="Tractor HANWO 604" />
       </div>
 
       {/* Galerie thumbnail */}
@@ -69,31 +44,62 @@ export default function Tractor6() {
           <img
             key={index}
             src={img}
-            alt={`Tractor HANWO ${index}`}
+            alt={`Tractor HANWO 604 - ${index}`}
             onClick={() => setMainImage(img)}
             className={img === mainImage ? "active-thumb" : ""}
           />
         ))}
       </div>
 
-      <h1 className="red-title">Tractor Agricol HANWO 504R – 50 CP, 4×4 Euro 5</h1>
-      <p className="price">Preț de bază: 90,000.00 lei</p>
+      <h1 className="red-title">Tractor Agricol HANWO 604 – 65 CP, 4×4 Euro 5 + Încărcător Frontal</h1>
+      <p className="price">Preț de bază: 160,000.00 lei</p>
 
       {/* Descriere */}
       <div className="product-description">
-        <p>Tractorul HANWO Model 504R oferă performanță fiabilă și durabilitate în toate condițiile agricole, cu motor vertical răcit cu apă și tracțiune 4x4.</p>
+        <p>
+          HANWO 604 reprezintă combinația ideală între putere, confort și economie.
+          Cu motor Euro 5 performant, tracțiune integrală 4×4 și încărcător frontal
+          rezistent (capacitate ridicare până la 1200 kg), acest model este potrivit
+          pentru ferme, zootehnie, construcții și lucrări municipale.
+        </p>
 
         <div className="section-box">⚙️ Motor</div>
-        <p>Motor YN4H055-30VE, vertical, răcit cu apă, în 4 timpi. Putere nominală/maximă: 36,8 kW / 50 CP. Turație nominală/maximă: 2400 rpm. Rezervor combustibil: 40 L.</p>
+        <p>
+          Motor Yuchai YC3Y3065-5580, Euro V, turbo. Putere nominală 48 kW (65 CP),
+          turație 2400 rpm, cuplu maxim 196 Nm, cilindree 2.998 L. Rezervor combustibil 75 L.
+        </p>
 
-        <div className="section-box">🛞 Dimensiuni</div>
-        <p>Lungime totală: 3810 mm, lățime: 1495 mm, înălțime: 2596 mm (cu bară antiruliu), ampatament: 1809 mm, gardă minimă la sol: 215 mm, bandă față: 1160 mm, bandă spate: 1200 mm, greutate: 2260 kg.</p>
+        <div className="section-box">🛞 Transmisie & tracțiune</div>
+        <p>
+          Tracțiune 4×4 (4WD), ambreiaj 11 inch cu două trepte, cutie sincronizată 12F+12R.
+          Viteză înainte: 1.49–25.70 km/h. Viteză marșarier: 1.29–27.90 km/h.
+          Transmisie finală cu angrenaj planetar, blocare diferențial mecanică.
+        </p>
 
-        <div className="section-box">⚙️ Transmisie și tracțiune</div>
-        <p>Ambreiaj cu frecare uscată, două trepte. Anvelope față 280/70R16, spate 360/71R24. Direcție hidraulică. Transmisie cu trepte de viteză, 8 înainte și 8 înapoi + schimbare sincronizată. Tracțiune 4×4 (4WD). Viteză maximă: 1,99–28,37 km/h.</p>
+        <div className="section-box">🛢️ Sistem hidraulic</div>
+        <p>
+          Debit pompă hidraulică 36–55 L/min, două supape spate, ridicare 3 puncte Cat. II,
+          capacitate ridicare 13.5 kN, PTO independent 540/1000.
+        </p>
 
-        <div className="section-box">🛠️ Sistem hidraulic</div>
-        <p>Debit hidraulic: 36 L/min, sistem semi-divizat, ridicare reglabilă într-o singură poziție, comandă spate: două grupuri, cuplaj rapid hidraulic. Putere priză de putere: 540/1000.</p>
+        <div className="section-box">📏 Dimensiuni & greutate</div>
+        <p>
+          Dimensiuni (L×l×h): 4206×1782×2781 mm (cabina). Ampatament 2050 mm,
+          ecartament față 1320 mm, spate 1400 mm, gardă la sol 360 mm.
+          Greutate structură 3180 kg, greutate minimă lucru 3360 kg.
+        </p>
+
+        <div className="section-box">🛞 Anvelope</div>
+        <p>
+          Standard față 7.5–16, spate 380/70R28.
+          Opționale: 280/70R16 380/85R24, 280/70R18 380/70R28, 280/70R20 380/85R28.
+        </p>
+
+        <div className="section-box">✅ Echipare & siguranță</div>
+        <p>
+          Cabină cu aer condiționat, sistem ROPS, frâne pe disc, frână de parcare mecanică.
+          Încărcător frontal cu cupă graifer — ridicare până la 1200 kg.
+        </p>
       </div>
 
       {/* Alte tractoare */}
