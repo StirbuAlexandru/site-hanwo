@@ -6,17 +6,17 @@
   top: 0;
   left: 0;
   width: 100%;
-  color: rgba(196, 0, 23, 0.78);
- /* transparent inițial */
-  color: #d62a32; /* text principal */
+  background: rgba(255, 255, 255, 0.92) !important; /* 🔥 PUȚIN transparent */
+  color: #111;
   z-index: 1000;
-  transition: background 0.28s ease, box-shadow 0.28s ease, transform 0.28s ease;
+  transition: background 0.25s ease, box-shadow 0.25s ease;
   font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
+/* Când începi scroll → devine complet ALB */
 .header.scrolled {
-  background: rgba(255, 255, 255, 1); /* opac la scroll */
+  background: #ffffff !important; /* 🔥 100% alb */
   box-shadow: 0 6px 20px rgba(17, 17, 17, 0.06);
 }
 
@@ -45,43 +45,45 @@
 /* NAVIGAȚIE PRINCIPALĂ */
 .nav ul {
   list-style: none;
-  display: flex; /* meniu principal orizontal */
+  display: flex;
   gap: 28px;
   margin: 0;
   padding: 0;
   align-items: center;
-  color: rgba(196, 0, 23, 0.78);
-
 }
 
 .nav ul li {
   position: relative;
 }
 
+/* 🔥 Implicit: NEGRU */
 .nav ul li a,
 .nav ul li button,
 .nav ul li .products-btn {
   text-decoration: none;
-  color: #d62a32;
+  color: #111 !important;
   font-weight: 500;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px 6px; /* mărime uniformă */
+  padding: 8px 6px;
   font-size: 0.98rem;
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  transition: color 0.25s ease;
 }
 
-/* Culoarea la hover: roșu specific (#c40017) */
 .nav ul li a:hover,
-.nav ul li button:hover,
-.nav ul li a.active,
-.nav ul li a.active:visited {
-  color: #c40017;
+.nav ul li button:hover {
+  color: #c40017 !important;
 }
 
+.nav ul li a.active {
+  color: #c40017 !important;
+}
+
+/* Linia roșie */
 .nav ul li a::after {
   content: "";
   position: absolute;
@@ -93,17 +95,16 @@
   transition: width 0.25s ease;
 }
 
-.nav ul li a:hover::after {
+.nav ul li a:hover::after,
+.nav ul li a.active::after {
   width: 100%;
 }
 
 /* ========== MEGA MENU ========== */
-
 .has-mega {
   position: relative;
 }
 
-/* ---------- Mega menu (hover pe desktop) ---------- */
 .has-mega .mega {
   position: absolute;
   left: 0;
@@ -119,7 +120,7 @@
   transition: opacity 0.28s ease, visibility 0.28s ease, transform 0.28s ease;
   min-width: 340px;
   max-width: 560px;
-  overflow: hidden; /* ✅ fără bara de scroll */
+  overflow: hidden;
   z-index: 1100;
 }
 
@@ -127,7 +128,7 @@
   opacity: 1;
   visibility: visible;
   transform: translateX(-12px) translateY(14px);
-  animation: fadeInMega 0.25s ease forwards; /* ✅ fade-in elegant */
+  animation: fadeInMega 0.25s ease forwards;
 }
 
 @keyframes fadeInMega {
@@ -147,8 +148,7 @@
   gap: 8px;
   min-width: 260px;
   max-width: 480px;
-  color: rgba(196, 0, 23, 0.78);
-
+  color: #111;
 }
 
 .mega-column {
@@ -173,7 +173,7 @@
   color: #111;
 }
 
-/* Mobile submeniul Produse (apare în interiorul nav-ului) */
+/* Mobile submenu */
 .mobile-sub {
   display: none;
 }
@@ -202,12 +202,10 @@
 
 /* ========== RESPONSIVE ========== */
 @media (max-width: 900px) {
-  /* Buton burger vizibil */
   .menu-toggle {
     display: block;
   }
 
-  /* Nav devine drawer pe mobil */
   .nav {
     position: fixed;
     top: 0;
@@ -240,7 +238,6 @@
     font-size: 1.05rem;
   }
 
-  /* Ascundem mega menu pe mobil */
   .has-mega .mega {
     display: none;
   }
@@ -250,7 +247,7 @@
   }
 }
 
-/* Clasă pentru link activ */
+/* Link activ */
 .active {
   color: #c40017 !important;
 }

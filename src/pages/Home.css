@@ -704,4 +704,26 @@
   .about-image {
     margin-top: 30px;
   }
+  @media (max-width: 767px) {
+  .carousel-card {
+    width: 100%;       /* ocupă tot ecranul pe telefon */
+    max-width: none;
+  }
+
+  .carousel-image {
+    height: 200px;     /* dimensiune mai potrivită pentru mobil */
+    object-fit: cover;
+  }
+
+  .carousel-arrow {
+    padding: 6px 10px; /* săgeți vizibile și ușor de apăsat */
+    font-size: 1.5rem;
+  }
+
+  .carousel-track {
+    display: flex;
+    gap: 12px;
+  }
+}
+
 }

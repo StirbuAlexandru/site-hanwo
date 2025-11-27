@@ -45,7 +45,7 @@ export default function Header() {
               </NavLink>
             </li>
 
-            {/* PRODUSE – fără submeniuri */}
+            {/* PRODUSE */}
             <li>
               <NavLink
                 to="/produse/tractoare"

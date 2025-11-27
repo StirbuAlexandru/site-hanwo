@@ -111,21 +111,22 @@ export default function Home() {
       </section>
 
       {/* CARUSEL PRODUSE */}
-    <section className="produse">
+ <section className="produse">
   <h2 className="section-title">Produsele noastre</h2>
 
   <div className="carousel-container">
     <button className="carousel-arrow left" onClick={handlePrev}>❮</button>
 
     <div className="carousel-track">
-      {[images[index], images[(index + 1) % images.length]].map((img, i) => (
+      {(window.innerWidth < 768
+        ? [images[index]] // doar un produs pe telefon
+        : [images[index], images[(index + 1) % images.length]] // 2 produse pe desktop/tablet
+      ).map((img, i) => (
         <div key={i} className="carousel-card">
           <Link to={img.link} className="carousel-image-wrapper">
             <img src={img.src} alt={img.title} className="carousel-image" />
           </Link>
-
           <h3 className="carousel-title">{img.title}</h3>
-
         </div>
       ))}
     </div>
@@ -133,7 +134,6 @@ export default function Home() {
     <button className="carousel-arrow right" onClick={handleNext}>❯</button>
   </div>
 </section>
-
 
       {/* ABOUT */}
       <section className="about-section" ref={aboutRef}>
