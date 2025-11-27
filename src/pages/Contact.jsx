@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./Contact.css";
 import { FaFacebookF, FaInstagram, FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 
-// Pagina de contact completă: informații, formular, hartă, FAQ și linkuri sociale.
 export default function Contact() {
 	const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
 	const [errors, setErrors] = useState({});
@@ -12,9 +11,7 @@ export default function Contact() {
 	const [serverError, setServerError] = useState(null);
 
 	const faqs = [
-		{ q: "Cât timp durează livrarea?", a: "Timpul de livrare depinde de produs și de stoc. De obicei, livrăm în 3-14 zile lucrătoare. Pentru informații exacte, te rugăm să ne contactezi." },
-		{ q: "Oferiți garanție?", a: "Da — oferim garanție pentru majoritatea utilajelor. Durata garanției variază în funcție de produs; verifică fișa produsului sau contactează-ne." },
-		{ q: "Pot cere demonstrație produs?", a: "Da. Contactează-ne cu modelul dorit și îți vom programa o demonstrație sau consultanță tehnică." },
+		{ q: "Oferiți garanție?", a: "Da — oferim garanție pentru toate tractoarele." }
 	];
 
 	function handleChange(e) {
@@ -35,7 +32,6 @@ export default function Contact() {
 		const v = validate();
 		setErrors(v);
 		if (Object.keys(v).length === 0) {
-			// Trimitem către backendul local dacă este disponibil
 			setErrors({});
 			setServerError(null);
 			setLoading(true);
@@ -61,7 +57,6 @@ export default function Contact() {
 						return;
 					}
 
-					// success
 					setSent(true);
 					setForm({ name: "", email: "", phone: "", message: "" });
 					setTimeout(() => setSent(false), 6000);
@@ -105,6 +100,7 @@ export default function Contact() {
 						<div>
 							<h3>Adresa</h3>
 							<p>Str. Principală, nr.151, sat Gara Milișăuți, Suceava</p>
+							<p>Principala nr. 179, Lungulețu 137280, România.</p>
 						</div>
 					</div>
 
@@ -165,19 +161,18 @@ export default function Contact() {
 
 					<div className="map-wrap">
 						<h3>Unde ne găsești</h3>
-												{/* Exemplu iframe Google Maps - înlocuiește coordonatele cu locația reală */}
-												<div style={{ width: "100%" }}>
-													<iframe
-														width="720"
-														height="600"
-														frameBorder="0"
-														scrolling="no"
-														marginHeight={0}
-														marginWidth={0}
-														src="https://maps.google.com/maps?width=720&amp;height=600&amp;hl=en&amp;q=AGRORUS%20BRAND%20S.R.L.+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-														title="Hanwo Location"
-													/>
-												</div>
+						<div style={{ width: "100%" }}>
+							<iframe
+								width="720"
+								height="600"
+								frameBorder="0"
+								scrolling="no"
+								marginHeight={0}
+								marginWidth={0}
+								src="https://maps.google.com/maps?width=720&amp;height=600&amp;hl=en&amp;q=AGRORUS%20BRAND%20S.R.L.+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+								title="Hanwo Location"
+							/>
+						</div>
 					</div>
 				</main>
 			</div>
@@ -189,4 +184,3 @@ export default function Contact() {
 		</div>
 	);
 }
-
