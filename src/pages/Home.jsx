@@ -99,6 +99,49 @@ export default function Home() {
   const nextRecenzie = () => setRecenzieIndex((prev) => (prev + recenziiPerPage) % recenzii.length);
   const prevRecenzie = () => setRecenzieIndex((prev) => (prev - recenziiPerPage + recenzii.length) % recenzii.length);
 
+  // Promotii carousel
+  const promotii = [
+    { 
+      id: 1,
+      src: tractor1, 
+      title: "Tractor 50 CAI HANWO, 4X4, STAGE V + Freza agricolă 160cm + Plug agricol cu 2 trupite", 
+      price: "99.900,00 lei", 
+      link: "/produse/tractoare/1" 
+    },
+    { 
+      id: 5,
+      src: tractor5, 
+      title: "Tractor 50 CAI HANWO 504, 4X4, STAGE 5 cu încărcător frontal + CARTE RAR INCLUSA", 
+      price: "160.000,00 lei", 
+      link: "/produse/tractoare/5" 
+    }
+  ];
+
+  const [promoIndex, setPromoIndex] = useState(0);
+  const handlePrevPromo = () => {
+    setPromoIndex((prev) => (prev - 2 + promotii.length) % promotii.length);
+  };
+
+  const handleNextPromo = () => {
+    setPromoIndex((prev) => (prev + 2) % promotii.length);
+  };
+
+  // Handle keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') {
+        handlePrev();
+        handlePrevPromo();
+      } else if (e.key === 'ArrowRight') {
+        handleNext();
+        handleNextPromo();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   return (
     <div className="home">
 
@@ -106,16 +149,22 @@ export default function Home() {
       <section className="hero">
         <img src={imagineagrorus} alt="Utilaje agricole" className="hero-image" />
         <div className="hero-overlay">
-          <Link to="/produse/tractoare" className="hero-button">Descoperă</Link>
+          <Link to="/produse/tractoare" className="hero-button" aria-label="Descoperă produsele noastre">Descoperă</Link>
         </div>
       </section>
 
       {/* CARUSEL PRODUSE */}
- <section className="produse">
+ <section className="produse" role="region" aria-label="Produsele noastre">
   <h2 className="section-title">Produsele noastre</h2>
 
   <div className="carousel-container">
-    <button className="carousel-arrow left" onClick={handlePrev}>❮</button>
+    <button 
+      className="carousel-arrow left" 
+      onClick={handlePrev} 
+      aria-label="Produsul anterior"
+    >
+      ❮
+    </button>
 
     <div className="carousel-track">
       {(window.innerWidth < 768
@@ -123,20 +172,26 @@ export default function Home() {
         : [images[index], images[(index + 1) % images.length]] // 2 produse pe desktop/tablet
       ).map((img, i) => (
         <div key={i} className="carousel-card">
-          <Link to={img.link} className="carousel-image-wrapper">
-            <img src={img.src} alt={img.title} className="carousel-image" />
+          <Link to={img.link} className="carousel-image-wrapper" tabIndex="-1">
+            <img src={img.src} alt={img.title} className="carousel-image" loading="lazy" />
           </Link>
           <h3 className="carousel-title">{img.title}</h3>
         </div>
       ))}
     </div>
 
-    <button className="carousel-arrow right" onClick={handleNext}>❯</button>
+    <button 
+      className="carousel-arrow right" 
+      onClick={handleNext} 
+      aria-label="Următorul produs"
+    >
+      ❯
+    </button>
   </div>
 </section>
 
       {/* ABOUT */}
-      <section className="about-section" ref={aboutRef}>
+      <section className="about-section" ref={aboutRef} role="region" aria-label="Despre Hanwo">
         <div className="about-container">
           <h2 className="about-title">Despre Hanwo</h2>
           <p className="about-subtitle">Puterea modernă în agricultură românească</p>
@@ -149,30 +204,88 @@ export default function Home() {
             <div className="stat-item"><h3>{stats.clienti}+</h3><p>Clienți mulțumiți</p></div>
           </div>
           <div className="about-image">
-            <img src={imagineAbout} alt="Hanwo Agricultură Modernă" />
+            <img src={imagineAbout} alt="Hanwo Agricultură Modernă" loading="lazy" />
           </div>
         </div>
       </section>
 
       {/* EVENIMENTE */}
-      <section className="evenimente">
+      <section className="evenimente" role="region" aria-label="Evenimente Hanwo">
         <div className="evenimente-header">
           <h2>Evenimente Hanwo</h2>
           <p>Momente de la târguri și prezentări din toată țara</p>
         </div>
         <div className="evenimente-slider">
-          <button className="evenimente-arrow left" onClick={prevSlide}>❮</button>
+          <button 
+            className="evenimente-arrow left" 
+            onClick={prevSlide} 
+            aria-label="Imaginea anterioară"
+          >
+            ❮
+          </button>
           <div className="evenimente-wrapper" style={{ transform: `translateX(-${slide * 100}%)` }}>
             {evenimente.map((ev, i) => (
-              <div key={i} className="eveniment-item"><img src={ev.src} alt={ev.title} /></div>
+              <div key={i} className="eveniment-item">
+                <img src={ev.src} alt={ev.title} loading="lazy" />
+              </div>
             ))}
           </div>
-          <button className="evenimente-arrow right" onClick={nextSlide}>❯</button>
+          <button 
+            className="evenimente-arrow right" 
+            onClick={nextSlide} 
+            aria-label="Următoarea imagine"
+          >
+            ❯
+          </button>
+        </div>
+      </section>
+
+      {/* PROMOTII */}
+      <section className="promotii" role="region" aria-label="Promoții Hanwo">
+        <div className="promotii-header">
+          <h2>Promotii Hanwo</h2>
+          <p>Oferte speciale pentru echipamentele agricole</p>
+        </div>
+
+        <div className="promotii-container">
+          <button 
+            className="promotii-arrow left" 
+            onClick={handlePrevPromo} 
+            aria-label="Promoția anterioară"
+          >
+            ❮
+          </button>
+
+          <div className="promotii-track">
+            {(window.innerWidth < 768
+              ? [promotii[promoIndex]] // doar un produs pe telefon
+              : [promotii[promoIndex], promotii[(promoIndex + 1) % promotii.length]] // 2 produse pe desktop/tablet
+            ).map((promo, i) => (
+              <div key={i} className="promotii-card">
+                <Link to={promo.link} className="promotii-image-wrapper" tabIndex="-1">
+                  <img src={promo.src} alt={promo.title} className="promotii-image" loading="lazy" />
+                </Link>
+                <div className="promotii-content">
+                  <h3 className="promotii-title">{promo.title}</h3>
+                  <p className="promotii-price">{promo.price}</p>
+                  <Link to={promo.link} className="promotii-link">Vezi detalii →</Link>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button 
+            className="promotii-arrow right" 
+            onClick={handleNextPromo} 
+            aria-label="Următoarea promoție"
+          >
+            ❯
+          </button>
         </div>
       </section>
 
       {/* RECENZII */}
-      <section className="recenzii-section">
+      <section className="recenzii-section" role="region" aria-label="Recenzii clienți">
         <h2 className="recenzii-titlu">CE SPUN CLIENȚII NOȘTRI</h2>
         <div className="recenzii-container">
           <div className="recenzii-stanga">
@@ -181,7 +294,13 @@ După mai bine de 20 de ani de dezvoltare, Shandong Hanwo Agricultural Equipment
             </p>
           </div>
           <div className="recenzii-dreapta">
-            <button className="recenzie-arrow left" onClick={prevRecenzie}>❮</button>
+            <button 
+              className="recenzie-arrow left" 
+              onClick={prevRecenzie} 
+              aria-label="Recenzia anterioară"
+            >
+              ❮
+            </button>
             <div className="recenzii-slider">
               {recenzii.slice(recenzieIndex, recenzieIndex + recenziiPerPage).map((r, i) => (
                 <div key={i} className="recenzie-card">
@@ -191,7 +310,13 @@ După mai bine de 20 de ani de dezvoltare, Shandong Hanwo Agricultural Equipment
                 </div>
               ))}
             </div>
-            <button className="recenzie-arrow right" onClick={nextRecenzie}>❯</button>
+            <button 
+              className="recenzie-arrow right" 
+              onClick={nextRecenzie} 
+              aria-label="Următoarea recenzie"
+            >
+              ❯
+            </button>
           </div>
         </div>
       </section>

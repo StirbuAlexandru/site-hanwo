@@ -44,6 +44,7 @@
   border-radius: 50px;
   text-decoration: none;
   transition: all 0.3s ease;
+  text-align: center;
 }
 
 .hero-button:hover {
@@ -164,6 +165,7 @@
   justify-content: center;
   gap: 25px;
   position: relative;
+  padding: 0 60px; /* Space for arrows */
 }
 
 .carousel-track {
@@ -229,37 +231,22 @@
   border-radius: 50%;
   box-shadow: 0 4px 15px rgba(0,0,0,0.15);
   transition: 0.2s;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
 }
 
 .carousel-arrow:hover {
-  transform: scale(1.12);
+  transform: translateY(-50%) scale(1.12);
 }
 
-.left {
-  margin-right: 5px;
+.carousel-arrow.left {
+  left: 15px;
 }
 
-.right {
-  margin-left: 5px;
-}
-
-/* RESPONSIVE */
-@media(max-width: 850px) {
-  .carousel-card {
-    width: 300px;
-  }
-}
-
-@media(max-width: 700px) {
-  .carousel-track {
-    gap: 15px;
-  }
-}
-
-@media(max-width: 600px) {
-  .carousel-card {
-    width: 85vw;
-  }
+.carousel-arrow.right {
+  right: 15px;
 }
 
 /* ================= SECȚIUNEA ABOUT ================= */
@@ -456,6 +443,154 @@
   transform: scale(1.2);
 }
 
+/* ================= SECȚIUNEA PROMOTII ================= */
+.promotii {
+  padding: 100px 5%;
+  background-color: #fff;
+  text-align: center;
+  position: relative;
+}
+
+.promotii-header h2 {
+  font-size: 2.4rem;
+  color: #c40017;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.promotii-header p {
+  color: #555;
+  font-size: 1.1rem;
+  margin-bottom: 60px;
+}
+
+.promotii-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  position: relative;
+  margin: 0 auto;
+  width: 90%;
+  padding: 0 60px; /* Space for arrows */
+}
+
+.promotii-track {
+  display: flex;
+  gap: 35px;
+  transition: transform 0.4s ease;
+}
+
+.promotii-card {
+  background: white;
+  width: 350px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(196, 0, 23, 0.3); /* Red shadow */
+  padding-bottom: 22px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  animation: float 3s ease-in-out infinite;
+}
+
+.promotii-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 40px rgba(196, 0, 23, 0.4); /* Enhanced red shadow on hover */
+}
+
+.promotii-image-wrapper {
+  display: block;
+  width: 100%;
+  height: 230px;
+  overflow: hidden;
+}
+
+.promotii-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.promotii-image-wrapper:hover .promotii-image {
+  transform: scale(1.05);
+}
+
+.promotii-content {
+  padding: 18px 20px 10px;
+  text-align: left;
+}
+
+.promotii-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #222;
+  min-height: 50px;
+  margin-bottom: 10px;
+}
+
+.promotii-price {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #c40017;
+  margin: 10px 0;
+}
+
+.promotii-link {
+  display: inline-block;
+  color: #0077ff;
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 10px;
+  transition: color 0.3s ease;
+}
+
+.promotii-link:hover {
+  color: #c40017;
+  text-decoration: underline;
+}
+
+.promotii-arrow {
+  background: white;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 8px 14px;
+  border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(196, 0, 23, 0.3); /* Red shadow */
+  transition: 0.2s;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  color: #c40017;
+}
+
+.promotii-arrow:hover {
+  transform: translateY(-50%) scale(1.12);
+  box-shadow: 0 6px 20px rgba(196, 0, 23, 0.4); /* Enhanced red shadow */
+}
+
+.promotii-arrow.left {
+  left: 15px;
+}
+
+.promotii-arrow.right {
+  right: 15px;
+}
+
+/* Animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
 /* ================= SECȚIUNEA RECENZII ================= */
 .recenzii-section {
   padding: 100px 10%;
@@ -613,6 +748,20 @@
 }
 
 /* ================= RESPONSIVE ================= */
+@media (max-width: 1200px) {
+  .about-stats {
+    gap: 20px;
+  }
+  
+  .stat-item {
+    padding: 25px 40px;
+  }
+  
+  .recenzii-container {
+    gap: 40px;
+  }
+}
+
 @media (max-width: 992px) {
   .imagini-carusel {
     gap: 20px;
@@ -652,6 +801,134 @@
 
   .recenzie-arrow.right {
     right: 0;
+  }
+  
+  .about-stats {
+    gap: 15px;
+  }
+  
+  .stat-item {
+    padding: 20px 30px;
+    min-width: 180px;
+  }
+  
+  .stat-item h3 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 850px) {
+  .promotii-card {
+    width: 300px;
+  }
+  
+  .carousel-card {
+    width: 300px;
+  }
+  
+  .eveniment-item img {
+    height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-container {
+    padding: 0 50px; /* Adjusted space for arrows */
+  }
+  
+  .promotii-container {
+    padding: 0 50px; /* Adjusted space for arrows */
+  }
+  
+  .promotii-track {
+    gap: 15px;
+  }
+  
+  .promotii-arrow {
+    padding: 6px 10px;
+    font-size: 1.5rem;
+  }
+  
+  .carousel-track {
+    gap: 15px;
+  }
+  
+  .carousel-arrow {
+    padding: 6px 10px;
+    font-size: 1.5rem;
+  }
+  
+  .about-section {
+    padding: 80px 5%;
+  }
+  
+  .about-stats {
+    gap: 20px;
+  }
+  
+  .stat-item {
+    min-width: 150px;
+    padding: 15px 20px;
+  }
+  
+  .stat-item h3 {
+    font-size: 1.8rem;
+  }
+  
+  .evenimente {
+    padding: 80px 5%;
+  }
+  
+  .evenimente-header h2 {
+    font-size: 2rem;
+  }
+  
+  .eveniment-item img {
+    height: 300px;
+  }
+  
+  .evenimente-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+  
+  .evenimente-arrow.left {
+    left: 10px;
+  }
+  
+  .evenimente-arrow.right {
+    right: 10px;
+  }
+  
+  .promotii {
+    padding: 80px 5%;
+  }
+  
+  .promotii-header h2 {
+    font-size: 2rem;
+  }
+  
+  .recenzii-section {
+    padding: 80px 5%;
+  }
+  
+  .recenzii-titlu {
+    font-size: 2.2rem;
+  }
+  
+  .recenzie-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.3rem;
+  }
+  
+  .recenzie-arrow.left {
+    left: -40px;
+  }
+  
+  .recenzie-arrow.right {
+    right: -40px;
   }
 }
 
@@ -704,26 +981,273 @@
   .about-image {
     margin-top: 30px;
   }
-  @media (max-width: 767px) {
+  
+  .carousel-container {
+    padding: 0 40px; /* Further adjusted space for arrows */
+  }
+  
   .carousel-card {
-    width: 100%;       /* ocupă tot ecranul pe telefon */
-    max-width: none;
+    width: 85vw;
   }
 
   .carousel-image {
-    height: 200px;     /* dimensiune mai potrivită pentru mobil */
+    height: 200px;
     object-fit: cover;
   }
 
   .carousel-arrow {
-    padding: 6px 10px; /* săgeți vizibile și ușor de apăsat */
-    font-size: 1.5rem;
+    padding: 5px 8px;
+    font-size: 1.3rem;
+    width: 35px;
+    height: 35px;
   }
 
-  .carousel-track {
-    display: flex;
-    gap: 12px;
+  .carousel-arrow.left {
+    left: 10px;
+  }
+
+  .carousel-arrow.right {
+    right: 10px;
+  }
+  
+  .promotii-container {
+    padding: 0 40px; /* Further adjusted space for arrows */
+  }
+  
+  .promotii-card {
+    width: 85vw;
+  }
+
+  .promotii-image {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .promotii-content {
+    padding: 15px;
+  }
+  
+  .promotii-title {
+    font-size: 1rem;
+  }
+  
+  .promotii-price {
+    font-size: 1.1rem;
+  }
+  
+  .promotii-arrow {
+    padding: 5px 8px;
+    font-size: 1.3rem;
+    width: 35px;
+    height: 35px;
+  }
+
+  .promotii-arrow.left {
+    left: 10px;
+  }
+
+  .promotii-arrow.right {
+    right: 10px;
+  }
+  
+  .hero-button {
+    padding: 15px 30px;
+    font-size: 1.4rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .about-title {
+    font-size: 2.2rem;
+  }
+  
+  .about-stats {
+    gap: 15px;
+  }
+  
+  .stat-item {
+    min-width: 130px;
+    padding: 12px 15px;
+  }
+  
+  .stat-item h3 {
+    font-size: 1.5rem;
+  }
+  
+  .eveniment-item img {
+    height: 250px;
+  }
+  
+  .evenimente-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .evenimente-header p {
+    font-size: 1rem;
+  }
+  
+  .recenzii-titlu {
+    font-size: 1.8rem;
+  }
+  
+  .recenzie-text {
+    font-size: 0.9rem;
   }
 }
 
+@media (max-width: 480px) {
+  .hero {
+    height: 70vh;
+  }
+  
+  .hero-button {
+    padding: 12px 25px;
+    font-size: 1.2rem;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+  }
+  
+  .about-section {
+    padding: 60px 5%;
+  }
+  
+  .about-title {
+    font-size: 2rem;
+  }
+  
+  .about-text {
+    font-size: 1rem;
+  }
+  
+  .about-stats {
+    gap: 10px;
+  }
+  
+  .stat-item {
+    min-width: 120px;
+    padding: 10px 12px;
+  }
+  
+  .stat-item h3 {
+    font-size: 1.3rem;
+  }
+  
+  .stat-item p {
+    font-size: 0.8rem;
+  }
+  
+  .evenimente {
+    padding: 60px 5%;
+  }
+  
+  .evenimente-header h2 {
+    font-size: 1.6rem;
+  }
+  
+  .eveniment-item img {
+    height: 200px;
+  }
+  
+  .evenimente-arrow {
+    width: 35px;
+    height: 35px;
+    font-size: 1.3rem;
+  }
+  
+  .promotii {
+    padding: 60px 5%;
+  }
+  
+  .promotii-header h2 {
+    font-size: 1.6rem;
+  }
+  
+  .promotii-card {
+    width: 90vw;
+  }
+  
+  .promotii-image {
+    height: 180px;
+  }
+  
+  .promotii-title {
+    font-size: 0.9rem;
+  }
+  
+  .promotii-price {
+    font-size: 1rem;
+  }
+  
+  .promotii-arrow {
+    padding: 4px 6px;
+    font-size: 1.2rem;
+    width: 30px;
+    height: 30px;
+  }
+  
+  .recenzii-section {
+    padding: 60px 5%;
+  }
+  
+  .recenzii-titlu {
+    font-size: 1.6rem;
+  }
+  
+  .recenzie-card {
+    padding: 15px;
+  }
+  
+  .recenzie-text {
+    font-size: 0.85rem;
+  }
+  
+  .recenzie-card h4 {
+    font-size: 1rem;
+  }
+  
+  .recenzie-card span {
+    font-size: 0.8rem;
+  }
+  
+  .recenzie-arrow {
+    width: 35px;
+    height: 35px;
+    font-size: 1.2rem;
+  }
+  
+  .recenzie-arrow.left {
+    left: -30px;
+  }
+  
+  .recenzie-arrow.right {
+    right: -30px;
+  }
+  
+  .carousel-container {
+    padding: 0 35px;
+  }
+  
+  .carousel-card {
+    width: 90vw;
+  }
+  
+  .carousel-image {
+    height: 180px;
+  }
+  
+  .carousel-arrow {
+    padding: 4px 6px;
+    font-size: 1.2rem;
+    width: 30px;
+    height: 30px;
+  }
+  
+  .carousel-title {
+    font-size: 0.9rem;
+    padding: 15px 15px 8px;
+  }
 }
