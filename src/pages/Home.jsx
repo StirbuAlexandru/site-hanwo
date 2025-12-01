@@ -33,11 +33,11 @@ export default function Home() {
   ];
 
   const handlePrev = () => {
-    setIndex((prev) => (prev - 2 + images.length) % images.length);
+    setIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
   const handleNext = () => {
-    setIndex((prev) => (prev + 2) % images.length);
+    setIndex((prev) => (prev + 1) % images.length);
   };
 
   // Counter Animation
@@ -67,22 +67,6 @@ export default function Home() {
     if (aboutRef.current) observer.observe(aboutRef.current);
     return () => observer.disconnect();
   }, [hasAnimated]);
-
-  // Evenimente slider
-  const evenimente = [
-    { src: "/pages/eveniment1.jpg", title: "Hanwo la târgul Agraria 2024" },
-    { src: "/pages/eveniment2.jpg", title: "Prezentare utilaje Hanwo în Bacău" },
-    { src: "/pages/eveniment3.jpg", title: "Lansare nouă gamă de tractoare Hanwo" },
-  ];
-
-  const [slide, setSlide] = useState(0);
-  const nextSlide = () => setSlide((prev) => (prev + 1) % evenimente.length);
-  const prevSlide = () => setSlide((prev) => (prev - 1 + evenimente.length) % evenimente.length);
-
-  useEffect(() => {
-    const interval = setInterval(nextSlide, 5000);
-    return () => clearInterval(interval);
-  }, []);
 
   // Recenzii
   const recenzii = [
@@ -119,11 +103,11 @@ export default function Home() {
 
   const [promoIndex, setPromoIndex] = useState(0);
   const handlePrevPromo = () => {
-    setPromoIndex((prev) => (prev - 2 + promotii.length) % promotii.length);
+    setPromoIndex((prev) => (prev - 1 + promotii.length) % promotii.length);
   };
 
   const handleNextPromo = () => {
-    setPromoIndex((prev) => (prev + 2) % promotii.length);
+    setPromoIndex((prev) => (prev + 1) % promotii.length);
   };
 
   // Handle keyboard navigation
@@ -167,9 +151,12 @@ export default function Home() {
     </button>
 
     <div className="carousel-track">
-      {(window.innerWidth < 768
-        ? [images[index]] // doar un produs pe telefon
-        : [images[index], images[(index + 1) % images.length]] // 2 produse pe desktop/tablet
+      {/* Show 3 items on desktop, 2 on tablet, 1 on mobile */}
+      {(window.innerWidth >= 1024
+        ? [images[index], images[(index + 1) % images.length], images[(index + 2) % images.length]]
+        : window.innerWidth >= 768
+        ? [images[index], images[(index + 1) % images.length]]
+        : [images[index]]
       ).map((img, i) => (
         <div key={i} className="carousel-card">
           <Link to={img.link} className="carousel-image-wrapper" tabIndex="-1">
@@ -206,37 +193,6 @@ export default function Home() {
           <div className="about-image">
             <img src={imagineAbout} alt="Hanwo Agricultură Modernă" loading="lazy" />
           </div>
-        </div>
-      </section>
-
-      {/* EVENIMENTE */}
-      <section className="evenimente" role="region" aria-label="Evenimente Hanwo">
-        <div className="evenimente-header">
-          <h2>Evenimente Hanwo</h2>
-          <p>Momente de la târguri și prezentări din toată țara</p>
-        </div>
-        <div className="evenimente-slider">
-          <button 
-            className="evenimente-arrow left" 
-            onClick={prevSlide} 
-            aria-label="Imaginea anterioară"
-          >
-            ❮
-          </button>
-          <div className="evenimente-wrapper" style={{ transform: `translateX(-${slide * 100}%)` }}>
-            {evenimente.map((ev, i) => (
-              <div key={i} className="eveniment-item">
-                <img src={ev.src} alt={ev.title} loading="lazy" />
-              </div>
-            ))}
-          </div>
-          <button 
-            className="evenimente-arrow right" 
-            onClick={nextSlide} 
-            aria-label="Următoarea imagine"
-          >
-            ❯
-          </button>
         </div>
       </section>
 
