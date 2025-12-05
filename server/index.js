@@ -3,7 +3,11 @@
 import http from "http";
 import fs from "fs";
 import path from "path";
-import nodemailer from "nodemailer";
+import https from "https";
+import { config } from "dotenv";
+
+// Load environment variables from .env file
+config();
 
 const PORT = process.env.PORT || 4000;
 const DATA_DIR = path.resolve("./server/data");
@@ -31,27 +35,61 @@ function sendJSON(res, status, obj) {
 
 ensureDataFile();
 
-// Configure mail transporter if SMTP env vars are present
-let transporter = null;
-const SMTP_HOST = process.env.SMTP_HOST;
-if (SMTP_HOST) {
-  try {
-    transporter = nodemailer.createTransport({
-      host: SMTP_HOST,
-      port: process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : 587,
-      secure: process.env.SMTP_SECURE === "true", // true for 465, false for other ports
-      auth: process.env.SMTP_USER
-        ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
-        : undefined,
-    });
-    // optionally verify
-    transporter.verify().then(() => console.log("SMTP transporter ready")).catch((e) => console.warn("SMTP verify failed", e.message));
-  } catch (err) {
-    console.error("Failed to create SMTP transporter", err);
-    transporter = null;
-  }
+// Brevo API configuration
+const BREVO_API_KEY = process.env.BREVO_API_KEY;
+const hasBrevoConfig = !!BREVO_API_KEY;
+
+if (hasBrevoConfig) {
+  console.log("Brevo API configured - emails will be sent");
 } else {
-  console.log("No SMTP configuration found — messages will be stored but not emailed. Set SMTP_HOST/SMTP_USER/SMTP_PASS to enable.");
+  console.log("No Brevo API key found - messages will be stored but not emailed");
+}
+
+// Function to send email via Brevo API
+async function sendEmailViaBrevo(to, subject, htmlContent, textContent) {
+  return new Promise((resolve, reject) => {
+    const data = JSON.stringify({
+      sender: { email: process.env.EMAIL_FROM || "noreply@agrorus.ro", name: "HANWO Romania" },
+      to: [{ email: to }],
+      subject: subject,
+      htmlContent: htmlContent,
+      textContent: textContent
+    });
+
+    const options = {
+      hostname: 'api.brevo.com',
+      port: 443,
+      path: '/v3/smtp/email',
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'api-key': BREVO_API_KEY,
+        'content-type': 'application/json',
+        'Content-Length': data.length
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let responseData = '';
+      res.on('data', (chunk) => {
+        responseData += chunk;
+      });
+      res.on('end', () => {
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          resolve({ success: true, data: responseData });
+        } else {
+          reject(new Error(`Brevo API error: ${res.statusCode} - ${responseData}`));
+        }
+      });
+    });
+
+    req.on('error', (error) => {
+      reject(error);
+    });
+
+    req.write(data);
+    req.end();
+  });
 }
 
 const server = http.createServer((req, res) => {
@@ -95,24 +133,25 @@ const server = http.createServer((req, res) => {
         arr.push(entry);
         fs.writeFileSync(MESSAGES_FILE, JSON.stringify(arr, null, 2));
 
-        // try to send email if transporter is configured
-        if (transporter) {
-          const mailFrom = process.env.EMAIL_FROM || process.env.SMTP_USER || 'no-reply@' + (process.env.SMTP_HOST || 'localhost');
-          const mailTo = process.env.EMAIL_TO || process.env.EMAIL_RECEIVER || process.env.SMTP_USER || mailFrom;
+        // try to send email via Brevo if configured
+        if (hasBrevoConfig) {
+          const mailTo = process.env.EMAIL_TO || 'alexstirbu388@gmail.com';
           const subject = `[HANWO] Mesaj de la ${name}`;
-          const text = `Nume: ${name}\nEmail: ${email}\nTelefon: ${phone || '-'}\nSursă: ${entry.source}\n\nMesaj:\n${message}`;
+          const text = `Nume: ${name}
+Email: ${email}
+Telefon: ${phone || '-'}
+Sursă: ${entry.source}
+
+Mesaj:
+${message}`;
+          const html = `<p><strong>Nume:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p><strong>Telefon:</strong> ${phone || '-'}</p><p><strong>Sursă:</strong> ${entry.source}</p>${entry.product ? `<p><strong>Produs:</strong> ${entry.product}</p>` : ''}<hr/><p>${message.replace(/\n/g, '<br/>')}</p>`;
+          
           try {
-            await transporter.sendMail({
-              from: mailFrom,
-              to: mailTo,
-              subject,
-              text,
-              html: `<p><strong>Nume:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p><strong>Telefon:</strong> ${phone || '-'}</p><p><strong>Sursă:</strong> ${entry.source}</p><hr/><p>${message.replace(/\n/g, '<br/>')}</p>`,
-            });
+            await sendEmailViaBrevo(mailTo, subject, html, text);
             return sendJSON(res, 200, { ok: true, entry, emailSent: true });
           } catch (err) {
-            console.error('Failed to send email:', err && err.message ? err.message : err);
-            return sendJSON(res, 200, { ok: true, entry, emailSent: false, emailError: (err && err.message) || 'send failed' });
+            console.error('Failed to send email via Brevo:', err.message);
+            return sendJSON(res, 200, { ok: true, entry, emailSent: false, emailError: err.message });
           }
         }
 

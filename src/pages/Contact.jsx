@@ -83,7 +83,9 @@ export default function Contact() {
 						<div className="icon"><FaPhone /></div>
 						<div>
 							<h3>Telefon</h3>
-							<p><a href="tel:+40745123456">+40 741 220 030</a></p>
+							<p><a href="tel:+40741220030">+40 741 220 030</a></p>
+							<p><a href="tel:+40759076654">+40 759 076 654</a></p>
+							<p><a href="tel:+40755458160">+40 755 458 160</a></p>
 						</div>
 					</div>
 
@@ -100,7 +102,7 @@ export default function Contact() {
 						<div>
 							<h3>Adresa</h3>
 							<p>Str. Principală, nr.151, sat Gara Milișăuți, Suceava</p>
-							<p>Principala nr. 179, Lungulețu 137280, România.</p>
+							<p>Principala nr. 179, Lungulețu 137280, Dâmbovița</p>
 						</div>
 					</div>
 
@@ -161,17 +163,33 @@ export default function Contact() {
 
 					<div className="map-wrap">
 						<h3>Unde ne găsești</h3>
-						<div style={{ width: "100%" }}>
-							<iframe
-								width="720"
-								height="600"
-								frameBorder="0"
-								scrolling="no"
-								marginHeight={0}
-								marginWidth={0}
-								src="https://maps.google.com/maps?width=720&amp;height=600&amp;hl=en&amp;q=AGRORUS%20BRAND%20S.R.L.+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-								title="Hanwo Location"
-							/>
+						<div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+							<div style={{ flex: "1", minWidth: "300px" }}>
+								<h4 style={{ marginBottom: "10px", fontSize: "1.1rem" }}>Str. Principală, nr.151, sat Gara Milișăuți, Suceava</h4>
+								<iframe
+									width="100%"
+									height="400"
+									frameBorder="0"
+									scrolling="no"
+									marginHeight={0}
+									marginWidth={0}
+									src="https://maps.google.com/maps?width=720&amp;height=600&amp;hl=en&amp;q=AGRORUS%20BRAND%20S.R.L.+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+									title="Hanwo Location Suceava"
+								/>
+							</div>
+							<div style={{ flex: "1", minWidth: "300px" }}>
+								<h4 style={{ marginBottom: "10px", fontSize: "1.1rem" }}>Principala nr. 179, Lungulețu 137280, Dâmbovița</h4>
+								<iframe
+									width="100%"
+									height="400"
+									frameBorder="0"
+									scrolling="no"
+									marginHeight={0}
+									marginWidth={0}
+									src="https://maps.google.com/maps?width=720&amp;height=400&amp;hl=ro&amp;q=Principala%20nr.%20179,%20Lungule%C8%9Bu%20137280,%20D%C3%A2mbovi%C8%9Ba+(AGRORUS%20BRAND)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+									title="Hanwo Location Dâmbovița"
+								/>
+							</div>
 						</div>
 					</div>
 				</main>

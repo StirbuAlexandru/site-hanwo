@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./Home.css";
-import imagineagrorus from "../assets/images/tractoracasa.jpg";
+import imagineagrorus from "../assets/images/tractorprincipal.png";
 import imagineAbout from "../assets/images/sediu.png";
 
 import tractor1 from "../assets/images/tractoare/Tractor1_main.jpg";
@@ -52,7 +52,7 @@ export default function Home() {
           const interval = setInterval(() => {
             const progress = Math.min((Date.now() - start) / duration, 1);
             setStats({
-              experience: Math.floor(progress * 15),
+              experience: Math.floor(progress * 8),
               utilaje: Math.floor(progress * 300),
               parteneri: Math.floor(progress * 50),
               clienti: Math.floor(progress * 1000),

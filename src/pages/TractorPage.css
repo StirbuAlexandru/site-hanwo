@@ -208,4 +208,186 @@
     border-right: none; /* eliminăm bordura pe ecrane mici */
     padding-right: 0;
   }
+
+  .quote-container {
+    flex-direction: column;
+  }
+
+  .contact-info-box,
+  .quote-form-box {
+    width: 100%;
+  }
+}
+
+/* ===================== Formular Cerere Ofertă ===================== */
+.quote-request-section {
+  margin: 60px 0;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #f9f9f9 0%, #fff 100%);
+  border-radius: 12px;
+  animation: fadeInUp 1s ease forwards;
+}
+
+.quote-request-section .section-title {
+  text-align: center;
+  font-size: 2.2rem;
+  color: #c40017;
+  margin-bottom: 40px;
+  font-weight: bold;
+}
+
+.quote-container {
+  display: flex;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+/* ===================== Contact Info Box ===================== */
+.contact-info-box {
+  flex: 1;
+  min-width: 300px;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  border: 2px solid #c40017;
+  box-shadow: 0 4px 15px rgba(196, 0, 23, 0.1);
+  animation: fadeIn 1s ease forwards;
+}
+
+.info-item {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.info-item:last-of-type {
+  border-bottom: none;
+}
+
+.info-icon {
+  font-size: 1.8rem;
+  color: #c40017;
+  margin-top: 5px;
+}
+
+.info-item h4 {
+  color: #c40017;
+  margin: 0 0 8px 0;
+  font-size: 1.1rem;
+}
+
+.info-item p {
+  margin: 3px 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+/* ===================== Contact Buttons ===================== */
+.contact-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.call-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 20px;
+  background: #c40017;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(196, 0, 23, 0.3);
+}
+
+.call-button:hover {
+  background: #a00015;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(196, 0, 23, 0.4);
+}
+
+.call-button svg {
+  font-size: 1.2rem;
+}
+
+/* ===================== Quote Form Box ===================== */
+.quote-form-box {
+  flex: 1;
+  min-width: 300px;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 1s ease forwards;
+}
+
+.quote-form h3 {
+  color: #c40017;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.quote-form input,
+.quote-form textarea {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.quote-form input:focus,
+.quote-form textarea:focus {
+  outline: none;
+  border-color: #c40017;
+  box-shadow: 0 0 8px rgba(196, 0, 23, 0.2);
+}
+
+.quote-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 15px;
+  background: #c40017;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(196, 0, 23, 0.3);
+}
+
+.submit-button:hover {
+  background: #a00015;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(196, 0, 23, 0.4);
+}
+
+.success-message {
+  background: #d4edda;
+  color: #155724;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  border: 1px solid #c3e6cb;
+  text-align: center;
+  font-weight: bold;
 }

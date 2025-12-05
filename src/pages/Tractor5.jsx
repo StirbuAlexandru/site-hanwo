@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./TractorPage.css";
+import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock } from "react-icons/fa";
 
 // Imagini Tractor 604 + încărcător frontal
 import tractor5_main from "../assets/images/tractoare/Tractor5_main.jpg";
@@ -19,6 +20,8 @@ import tractor5_thumb from "../assets/images/tractoare/Tractor5_main.jpg";
 
 export default function Tractor5() {
   const [mainImage, setMainImage] = useState(tractor5_main);
+  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [formSent, setFormSent] = useState(false);
   const images = [tractor5_main, tractor5_1, tractor5_2, tractor5_3, tractor5_4, tractor5_5];
 
   const otherTractors = [
@@ -28,6 +31,33 @@ export default function Tractor5() {
     { id: 4, name: "Tractor 50 CAI HANWO 504, 4X4, STAGE 5 cu încărcător frontal + CARTE RAR INCLUSA", thumb: tractor4_thumb },
     { id: 5, name: "Tractor HANWO 604, 65 CP, 4×4, Euro 5 + Încărcător frontal", thumb: tractor5_thumb }
   ];
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("http://localhost:4000/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          source: "product-page",
+          product: "Tractor HANWO 604 cu încărcător frontal"
+        }),
+      });
+      if (res.ok) {
+        setFormSent(true);
+        setForm({ name: "", email: "", phone: "", message: "" });
+        setTimeout(() => setFormSent(false), 5000);
+      }
+    } catch (err) {
+      console.error("Eroare la trimitere", err);
+    }
+  };
 
   return (
     <div className="product-page" style={{ paddingTop: "100px" }}>
@@ -100,6 +130,43 @@ export default function Tractor5() {
           Cabină cu aer condiționat, sistem ROPS, frâne pe disc, frână de parcare mecanică.
           Încărcător frontal cu cupă graifer — ridicare până la 1200 kg.
         </p>
+      </div>
+
+      {/* Formular Cerere Ofertă */}
+      <div className="quote-request-section">
+        <h2 className="section-title">Solicită Ofertă</h2>
+        <div className="quote-container">
+          <div className="contact-info-box">
+            <div className="info-item">
+              <FaMapMarkerAlt className="info-icon" />
+              <div><h4>Locație</h4><p>Str. Principală, nr.151</p><p>Gara Milișăuți, Suceava</p></div>
+            </div>
+            <div className="info-item">
+              <FaClock className="info-icon" />
+              <div><h4>Program</h4><p>Luni - Vineri: 09:00 - 18:00</p><p>Sâmbătă: 09:00 - 14:00</p></div>
+            </div>
+            <div className="info-item">
+              <FaEnvelope className="info-icon" />
+              <div><h4>Email</h4><p>agrorus.brend@gmail.com</p></div>
+            </div>
+            <div className="contact-buttons">
+              <a href="tel:+40741220030" className="call-button"><FaPhone /> +40 741 220 030</a>
+              <a href="tel:+40759076654" className="call-button"><FaPhone /> +40 759 076 654</a>
+              <a href="tel:+40755458160" className="call-button"><FaPhone /> +40 755 458 160</a>
+            </div>
+          </div>
+          <div className="quote-form-box">
+            <form className="quote-form" onSubmit={handleFormSubmit}>
+              <h3>Trimite-ne o cerere</h3>
+              {formSent && <div className="success-message">Cererea ta a fost trimisă! Te vom contacta în curând.</div>}
+              <input type="text" name="name" placeholder="Nume complet *" value={form.name} onChange={handleFormChange} required />
+              <input type="email" name="email" placeholder="Email *" value={form.email} onChange={handleFormChange} required />
+              <input type="tel" name="phone" placeholder="Telefon *" value={form.phone} onChange={handleFormChange} required />
+              <textarea name="message" placeholder="Mesajul tău (opțional)" value={form.message} onChange={handleFormChange} rows="4" />
+              <button type="submit" className="submit-button">Trimite Cererea</button>
+            </form>
+          </div>
+        </div>
       </div>
 
       {/* Alte tractoare */}

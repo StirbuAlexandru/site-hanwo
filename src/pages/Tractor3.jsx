@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./TractorPage.css";
+import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock } from "react-icons/fa";
 
 // Imagini principale Tractor3
 import tractor3_main from "../assets/images/tractoare/Tractor3_main.jpg";
@@ -19,6 +20,8 @@ import tractor6_thumb from "../assets/images/tractoare/Tractor6_main.jpg";
 
 export default function Tractor3() {
   const [mainImage, setMainImage] = useState(tractor3_main);
+  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [formSent, setFormSent] = useState(false);
 
   const images = [
     tractor3_main,
@@ -47,6 +50,33 @@ export default function Tractor3() {
     { id: 5, name: "Tractor HANWO 604, 65 CAI, 4X4, STAGE 5 cu încărcător frontal", thumb: tractor5_thumb },
     { id: 6, name: "Tractor Agricol HANWO 504R – 50 CP, 4×4 Euro 5", thumb: tractor6_thumb }
   ];
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("http://localhost:4000/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          source: "product-page",
+          product: "Tractor 75 CAI HANWO 704"
+        }),
+      });
+      if (res.ok) {
+        setFormSent(true);
+        setForm({ name: "", email: "", phone: "", message: "" });
+        setTimeout(() => setFormSent(false), 5000);
+      }
+    } catch (err) {
+      console.error("Eroare la trimitere", err);
+    }
+  };
 
   return (
     <div className="product-page">
@@ -109,6 +139,43 @@ export default function Tractor3() {
           <li key={i}>{item}</li>
         ))}
       </ul>
+
+      {/* Formular Cerere Ofertă */}
+      <div className="quote-request-section">
+        <h2 className="section-title">Solicită Ofertă</h2>
+        <div className="quote-container">
+          <div className="contact-info-box">
+            <div className="info-item">
+              <FaMapMarkerAlt className="info-icon" />
+              <div><h4>Locație</h4><p>Str. Principală, nr.151</p><p>Gara Milișăuți, Suceava</p></div>
+            </div>
+            <div className="info-item">
+              <FaClock className="info-icon" />
+              <div><h4>Program</h4><p>Luni - Vineri: 09:00 - 18:00</p><p>Sâmbătă: 09:00 - 14:00</p></div>
+            </div>
+            <div className="info-item">
+              <FaEnvelope className="info-icon" />
+              <div><h4>Email</h4><p>agrorus.brend@gmail.com</p></div>
+            </div>
+            <div className="contact-buttons">
+              <a href="tel:+40741220030" className="call-button"><FaPhone /> +40 741 220 030</a>
+              <a href="tel:+40759076654" className="call-button"><FaPhone /> +40 759 076 654</a>
+              <a href="tel:+40755458160" className="call-button"><FaPhone /> +40 755 458 160</a>
+            </div>
+          </div>
+          <div className="quote-form-box">
+            <form className="quote-form" onSubmit={handleFormSubmit}>
+              <h3>Trimite-ne o cerere</h3>
+              {formSent && <div className="success-message">Cererea ta a fost trimisă! Te vom contacta în curând.</div>}
+              <input type="text" name="name" placeholder="Nume complet *" value={form.name} onChange={handleFormChange} required />
+              <input type="email" name="email" placeholder="Email *" value={form.email} onChange={handleFormChange} required />
+              <input type="tel" name="phone" placeholder="Telefon *" value={form.phone} onChange={handleFormChange} required />
+              <textarea name="message" placeholder="Mesajul tău (opțional)" value={form.message} onChange={handleFormChange} rows="4" />
+              <button type="submit" className="submit-button">Trimite Cererea</button>
+            </form>
+          </div>
+        </div>
+      </div>
 
       {/* Alte tractoare */}
       <div className="other-tractors-section">
