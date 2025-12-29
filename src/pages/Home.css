@@ -412,6 +412,38 @@
   margin: 10px 0;
 }
 
+.promotii-prices {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.promotii-prices .old-price {
+  font-size: 1rem;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.promotii-image-wrapper {
+  position: relative;
+  display: block;
+}
+
+.discount-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #c40017;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 1rem;
+  z-index: 2;
+  box-shadow: 0 4px 10px rgba(196, 0, 23, 0.3);
+}
+
 .promotii-link {
   display: inline-block;
   color: #0077ff;

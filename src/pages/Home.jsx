@@ -11,6 +11,8 @@ import tractor4 from "../assets/images/tractoare/Tractor4_main.jpg";
 import tractor5 from "../assets/images/tractoare/Tractor5_main.jpg";
 import tractor6 from "../assets/images/tractoare/Tractor6_main.jpg";
 
+const API_URL = import.meta.env.PROD ? "https://hanwo-backend.onrender.com" : "http://localhost:4000";
+
 export default function Home() {
   const [index, setIndex] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
@@ -21,9 +23,22 @@ export default function Home() {
     clienti: 0,
   });
 
+  // Dynamic hero image
+  const [heroImage, setHeroImage] = useState(imagineagrorus);
+  
+  // Dynamic promotions from backend
+  const [promotiiDinamic, setPromotiiDinamic] = useState([]);
+  
+  // Dynamic testimonials from backend
+  const [testimonials, setTestimonials] = useState([]);
+  
+  // Dynamic products from backend
+  const [products, setProducts] = useState([]);
+
   const aboutRef = useRef(null);
 
-  const images = [
+  // Static fallback images if no products from database
+  const defaultImages = [
     { src: tractor1, title: "Tractor 50 CAI HANWO 504, INMATRICULABIL 4X4 AC", link: "/produse/tractoare/1" },
     { src: tractor2, title: "Tractor 65 CAI HANWO 604, 4X4, STAGE 5+CARTE RAR INCLUSA", link: "/produse/tractoare/2" },
     { src: tractor3, title: "Tractor 75 CAI HANWO 704, 4X4, STAGE 5 + CARTE RAR INCLUSA", link: "/produse/tractoare/3" },
@@ -31,6 +46,17 @@ export default function Home() {
     { src: tractor5, title: "Tractor Agricol HANWO 604 – 65 CP, 4×4 Euro 5 + Încărcător Frontal", link: "/produse/tractoare/5" },
     { src: tractor6, title: "Tractor Agricol HANWO 504R – 50 CP, 4×4 Euro 5", link: "/produse/tractoare/6" }
   ];
+
+  // Use dynamic products if available, otherwise use defaults
+  const images = products.length > 0
+    ? products
+        .filter(p => p.category === 'tractoare') // Only tractors
+        .map(p => ({
+          src: p.main_image || tractor1,
+          title: p.name,
+          link: `/produse/tractoare/${p.slug}`
+        }))
+    : defaultImages;
 
   const handlePrev = () => {
     setIndex((prev) => (prev - 1 + images.length) % images.length);
@@ -68,23 +94,33 @@ export default function Home() {
     return () => observer.disconnect();
   }, [hasAnimated]);
 
-  // Recenzii
-  const recenzii = [
-    { nume: "Ion Popescu", locatie: "Suceava", text: "Tractorul Hanwo pe care l-am cumpărat anul trecut funcționează impecabil..." },
-    { nume: "Maria Tănase", locatie: "Cluj", text: "Am trecut la Hanwo după ce m-am săturat de reparații constante..." },
-    { nume: "Vasile Dima", locatie: "Buzău", text: "Folosești un tractor Hanwo o dată și nu mai vrei altceva..." },
-    { nume: "Elena Ionescu", locatie: "Iași", text: "Service-ul lor este rapid și profesionist..." },
-    { nume: "Mihai Stoica", locatie: "Arad", text: "Sunt foarte mulțumit de modul în care Hanwo a combinat tehnologia..." },
-    { nume: "Cristina Pavel", locatie: "Brașov", text: "Pentru noi, investiția în Hanwo a fost cea mai bună decizie..." },
+  // Recenzii - fallback static testimonials
+  const defaultRecenzii = [
+    { nume: "Ion Popescu", locatie: "Suceava", text: "Tractorul Hanwo pe care l-am cumpărat anul trecut funcționează impecabil...", rating: 5 },
+    { nume: "Maria Tănase", locatie: "Cluj", text: "Am trecut la Hanwo după ce m-am săturat de reparații constante...", rating: 5 },
+    { nume: "Vasile Dima", locatie: "Buzău", text: "Folosești un tractor Hanwo o dată și nu mai vrei altceva...", rating: 5 },
+    { nume: "Elena Ionescu", locatie: "Iași", text: "Service-ul lor este rapid și profesionist...", rating: 5 },
+    { nume: "Mihai Stoica", locatie: "Arad", text: "Sunt foarte mulțumit de modul în care Hanwo a combinat tehnologia...", rating: 5 },
+    { nume: "Cristina Pavel", locatie: "Brașov", text: "Pentru noi, investiția în Hanwo a fost cea mai bună decizie...", rating: 5 },
   ];
+
+  // Use dynamic testimonials if available, otherwise use defaults
+  const recenzii = testimonials.length > 0
+    ? testimonials.map(t => ({
+        nume: t.client_name,
+        locatie: t.location || "România",
+        text: t.content,
+        rating: t.rating
+      }))
+    : defaultRecenzii;
 
   const [recenzieIndex, setRecenzieIndex] = useState(0);
   const recenziiPerPage = 2;
   const nextRecenzie = () => setRecenzieIndex((prev) => (prev + recenziiPerPage) % recenzii.length);
   const prevRecenzie = () => setRecenzieIndex((prev) => (prev - recenziiPerPage + recenzii.length) % recenzii.length);
 
-  // Promotii carousel
-  const promotii = [
+  // Promotii carousel - default fallback
+  const defaultPromotii = [
     { 
       id: 1,
       src: tractor1, 
@@ -100,6 +136,21 @@ export default function Home() {
       link: "/produse/tractoare/5" 
     }
   ];
+
+  // Use dynamic promotions if available, otherwise use defaults
+  const promotii = promotiiDinamic.length > 0 
+    ? promotiiDinamic.map(p => ({
+        id: p.id,
+        src: p.image 
+          ? (p.image.startsWith('http') ? p.image : `${API_URL}${p.image}`) 
+          : tractor1,
+        title: p.name,
+        price: p.new_price + " lei",
+        oldPrice: p.old_price,
+        discount: p.discount,
+        link: `/produse`
+      }))
+    : defaultPromotii;
 
   const [promoIndex, setPromoIndex] = useState(0);
   const handlePrevPromo = () => {
@@ -126,14 +177,61 @@ export default function Home() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Fetch dynamic data from backend
+  useEffect(() => {
+    // Fetch hero image
+    fetch(`${API_URL}/api/settings/hero`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok && data.heroImage) {
+          // Check if it's already a full URL (Supabase) or needs API_URL prefix
+          const imageUrl = data.heroImage.startsWith('http') 
+            ? data.heroImage 
+            : `${API_URL}${data.heroImage}`;
+          setHeroImage(imageUrl);
+        }
+      })
+      .catch(err => console.log("Using default hero image"));
+
+    // Fetch promotions
+    fetch(`${API_URL}/api/promotions`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok && data.promotions && data.promotions.length > 0) {
+          setPromotiiDinamic(data.promotions);
+        }
+      })
+      .catch(err => console.log("Using default promotions"));
+
+    // Fetch testimonials
+    fetch(`${API_URL}/api/testimonials`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok && data.testimonials && data.testimonials.length > 0) {
+          setTestimonials(data.testimonials);
+        }
+      })
+      .catch(err => console.log("Using default testimonials"));
+
+    // Fetch products
+    fetch(`${API_URL}/api/products`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok && data.products && data.products.length > 0) {
+          setProducts(data.products);
+        }
+      })
+      .catch(err => console.log("Using default products"));
+  }, []);
+
   return (
     <div className="home">
 
       {/* HERO */}
       <section className="hero">
-        <img src={imagineagrorus} alt="Utilaje agricole" className="hero-image" />
+        <img src={heroImage} alt="Utilaje agricole" className="hero-image" />
         <div className="hero-overlay">
-          <Link to="/produse/tractoare" className="hero-button" aria-label="Descoperă produsele noastre">Descoperă</Link>
+          <Link to="/produse/tractoare" className="hero-button" aria-label="Desoperă produsele noastre">Desoperă</Link>
         </div>
       </section>
 
@@ -215,15 +313,21 @@ export default function Home() {
           <div className="promotii-track">
             {(window.innerWidth < 768
               ? [promotii[promoIndex]] // doar un produs pe telefon
-              : [promotii[promoIndex], promotii[(promoIndex + 1) % promotii.length]] // 2 produse pe desktop/tablet
+              : promotii.length >= 2 
+                ? [promotii[promoIndex], promotii[(promoIndex + 1) % promotii.length]]
+                : [promotii[promoIndex]]
             ).map((promo, i) => (
               <div key={i} className="promotii-card">
                 <Link to={promo.link} className="promotii-image-wrapper" tabIndex="-1">
                   <img src={promo.src} alt={promo.title} className="promotii-image" loading="lazy" />
+                  {promo.discount && <span className="discount-badge">-{promo.discount}</span>}
                 </Link>
                 <div className="promotii-content">
                   <h3 className="promotii-title">{promo.title}</h3>
-                  <p className="promotii-price">{promo.price}</p>
+                  <div className="promotii-prices">
+                    {promo.oldPrice && <span className="old-price">{promo.oldPrice} lei</span>}
+                    <p className="promotii-price">{promo.price}</p>
+                  </div>
                   <Link to={promo.link} className="promotii-link">Vezi detalii →</Link>
                 </div>
               </div>

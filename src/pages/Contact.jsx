@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Contact.css";
-import { FaFacebookF, FaInstagram, FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaPhone, FaEnvelope, FaMapMarkerAlt, FaYoutube, FaTiktok } from "react-icons/fa";
 
 export default function Contact() {
 	const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
@@ -35,9 +35,14 @@ export default function Contact() {
 			setErrors({});
 			setServerError(null);
 			setLoading(true);
+			
+			const API_URL = import.meta.env.PROD 
+				? "https://hanwo-backend.onrender.com" 
+				: "http://localhost:4000";
+			
 			(async () => {
 				try {
-					const res = await fetch("http://localhost:4000/api/messages", {
+					const res = await fetch(`${API_URL}/api/messages`, {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
 						body: JSON.stringify({
@@ -107,8 +112,10 @@ export default function Contact() {
 					</div>
 
 					<div className="socials">
-						<a href="#" aria-label="Facebook"><FaFacebookF /></a>
-						<a href="#" aria-label="Instagram"><FaInstagram /></a>
+						<a href="https://www.facebook.com/agrorus.ro/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><FaFacebookF /></a>
+						<a href="https://www.instagram.com/agrorus.ro/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><FaInstagram /></a>
+						<a href="https://www.tiktok.com/@agrorus.ro?_r=1&_t=ZN-92LSLVkLO8k" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><FaTiktok /></a>
+						<a href="https://www.youtube.com/@agrorus_ro" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><FaYoutube /></a>
 					</div>
 
 					<div className="faq-block">

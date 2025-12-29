@@ -1,0 +1,21 @@
+{
+  "name": "hanwo-backend",
+  "version": "1.0.0",
+  "description": "HANWO Backend API with Node.js and Supabase",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "keywords": ["hanwo", "backend", "api", "supabase"],
+  "author": "HANWO Romania",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.89.0",
+    "dotenv": "^16.4.7"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

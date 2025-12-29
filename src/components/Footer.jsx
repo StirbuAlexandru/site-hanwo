@@ -45,10 +45,10 @@ export default function Footer() {
           <div className="footer-col fade fade-delay-3">
             <h3>Urmărește-ne</h3>
             <div className="social-icons">
-              <a href="#"><FaFacebookF /></a>
-              <a href="#"><FaInstagram /></a>
-              <a href="#"><FaTiktok /></a>
-              <a href="#"><FaYoutube /></a>
+              <a href="https://www.facebook.com/agrorus.ro/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><FaFacebookF /></a>
+              <a href="https://www.instagram.com/agrorus.ro/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><FaInstagram /></a>
+              <a href="https://www.tiktok.com/@agrorus.ro?_r=1&_t=ZN-92LSLVkLO8k" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><FaTiktok /></a>
+              <a href="https://www.youtube.com/@agrorus_ro" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><FaYoutube /></a>
             </div>
           </div>
 
@@ -70,7 +70,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>© {new Date().getFullYear()} HANWO România. Toate drepturile rezervate.</p>
+          <p> Website creator: Știrbu Alexandru, contact: +40 757 312 950.</p>
         </div>
       </div>
     </footer>
@@ -99,8 +99,13 @@ function FooterContactForm() {
     }
 
     setLoading(true);
+    
+    const API_URL = import.meta.env.PROD 
+      ? "https://hanwo-backend.onrender.com" 
+      : "http://localhost:4000";
+    
     try {
-      const res = await fetch("http://localhost:4000/api/messages", {
+      const res = await fetch(`${API_URL}/api/messages`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, source: "footer" }),
