@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./TractorPage.css";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock } from "react-icons/fa";
+import { API_URL } from "../config";
 
 // Imagini Tractor7
 import tractor7_main from "../assets/images/tractoare/Tractor7_main.jpg";
@@ -76,10 +77,6 @@ export default function Tractor7() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    
-    const API_URL = import.meta.env.PROD 
-      ? "https://hanwo-backend.onrender.com" 
-      : "http://localhost:4000";
     
     try {
       const res = await fetch(`${API_URL}/api/messages`, {

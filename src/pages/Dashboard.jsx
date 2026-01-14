@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Dashboard.css";
 import { FaEnvelope, FaImage, FaTags, FaSignOutAlt, FaTrash, FaCheck, FaPlus, FaEdit, FaTimes, FaTractor, FaQuoteRight, FaStar } from "react-icons/fa";
-
-const API_URL = "http://localhost:4000"; // Direct backend URL
+import { API_URL } from "../config";
 
 export default function Dashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

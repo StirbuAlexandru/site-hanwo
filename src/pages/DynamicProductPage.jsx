@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./TractorPage.css";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock } from "react-icons/fa";
-
-const API_URL = "http://localhost:4000";
+import { API_URL } from "../config";
 
 export default function DynamicProductPage() {
   const { slug } = useParams();

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./TractorPage.css";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock } from "react-icons/fa";
+import { API_URL } from "../config";
 
 // Imagini simulate pentru Tractor2
 import tractor2_main from "../assets/images/tractoare/Tractor2_main.jpg";
@@ -40,10 +41,6 @@ export default function Tractor2() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    
-    const API_URL = import.meta.env.PROD 
-      ? "https://hanwo-backend.onrender.com" 
-      : "http://localhost:4000";
     
     try {
       const res = await fetch(`${API_URL}/api/messages`, {

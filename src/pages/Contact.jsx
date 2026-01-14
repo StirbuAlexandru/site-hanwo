@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Contact.css";
 import { FaFacebookF, FaInstagram, FaPhone, FaEnvelope, FaMapMarkerAlt, FaYoutube, FaTiktok } from "react-icons/fa";
+import { API_URL } from "../config";
 
 export default function Contact() {
 	const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
@@ -35,8 +36,6 @@ export default function Contact() {
 			setErrors({});
 			setServerError(null);
 			setLoading(true);
-			
-			const API_URL = "http://localhost:4000";
 			
 			(async () => {
 				try {

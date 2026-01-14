@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 import imagineagrorus from "../assets/images/tractorprincipal.png";
 import imagineAbout from "../assets/images/sediu.png";
+import { API_URL } from "../config";
 
 import tractor1 from "../assets/images/tractoare/Tractor1_main.jpg";
 import tractor2 from "../assets/images/tractoare/Tractor2_main.jpg";
@@ -10,8 +11,6 @@ import tractor3 from "../assets/images/tractoare/Tractor3_main.jpg";
 import tractor4 from "../assets/images/tractoare/Tractor4_main.jpg";
 import tractor5 from "../assets/images/tractoare/Tractor5_main.jpg";
 import tractor6 from "../assets/images/tractoare/Tractor6_main.jpg";
-
-const API_URL = "http://localhost:4000";
 
 export default function Home() {
   const [index, setIndex] = useState(0);

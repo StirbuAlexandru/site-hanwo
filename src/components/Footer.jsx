@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Footer.css";
 import { Link } from "react-router-dom";
 import campie from "../assets/images/campie.jpg";
+import { API_URL } from "../config";
 
 // ANPC IMAGES
 import anpc from "../assets/images/anpc-img.png";
@@ -99,8 +100,6 @@ function FooterContactForm() {
     }
 
     setLoading(true);
-    
-    const API_URL = "http://localhost:4000";
     
     try {
       const res = await fetch(`${API_URL}/api/messages`, {
