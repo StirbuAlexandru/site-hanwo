@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Dashboard.css";
 import { FaEnvelope, FaImage, FaTags, FaSignOutAlt, FaTrash, FaCheck, FaPlus, FaEdit, FaTimes, FaTractor, FaQuoteRight, FaStar } from "react-icons/fa";
 
-const API_URL = import.meta.env.PROD ? "https://hanwo-backend.onrender.com" : ""; // Proxy through Vite in dev
+const API_URL = "http://localhost:4000"; // Direct backend URL
 
 export default function Dashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,6 +25,7 @@ export default function Dashboard() {
   // Promotions state
   const [promotions, setPromotions] = useState([]);
   const [showAddPromo, setShowAddPromo] = useState(false);
+  const [editingPromo, setEditingPromo] = useState(null);
   const [newPromo, setNewPromo] = useState({
     title: "",
     price: "",
@@ -261,8 +262,41 @@ export default function Dashboard() {
     }
   };
 
+  const resetPromoForm = () => {
+    setNewPromo({ title: "", price: "", oldPrice: "", discount: "", link: "", image: null });
+    setEditingPromo(null);
+    setShowAddPromo(false);
+  };
+
+  // Calculate discount percentage automatically
+  const calculateDiscount = (oldPrice, newPrice) => {
+    if (!oldPrice || !newPrice) return "";
+    const old = parseFloat(oldPrice.replace(/,/g, ''));
+    const newP = parseFloat(newPrice.replace(/,/g, ''));
+    if (isNaN(old) || isNaN(newP) || old <= 0) return "";
+    const discount = Math.round(((old - newP) / old) * 100);
+    return discount > 0 ? `${discount}%` : "";
+  };
+
+  // Update discount when prices change
+  const handlePriceChange = (field, value) => {
+    const updatedPromo = { ...newPromo, [field]: value };
+    
+    // Auto-calculate discount if both prices are set
+    if (field === 'oldPrice' || field === 'price') {
+      const discount = calculateDiscount(
+        field === 'oldPrice' ? value : newPromo.oldPrice,
+        field === 'price' ? value : newPromo.price
+      );
+      updatedPromo.discount = discount;
+    }
+    
+    setNewPromo(updatedPromo);
+  };
+
   const addPromotion = async (e) => {
     e.preventDefault();
+    console.log("Form submitted", { editingPromo, newPromo });
     
     const formData = new FormData();
     formData.append("title", newPromo.title);
@@ -275,22 +309,54 @@ export default function Dashboard() {
     }
     
     try {
-      const res = await fetch(`${API_URL}/api/promotions`, {
-        method: "POST",
+      const url = editingPromo 
+        ? `${API_URL}/api/promotions/${editingPromo.id}`
+        : `${API_URL}/api/promotions`;
+      
+      console.log("Sending request to:", url);
+      console.log("Method:", editingPromo ? "PUT" : "POST");
+        
+      const res = await fetch(url, {
+        method: editingPromo ? "PUT" : "POST",
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("dashboard_token")}`
         },
         body: formData
       });
+      
+      console.log("Response status:", res.status);
       const data = await res.json();
+      console.log("Response data:", data);
+      
       if (data.ok) {
-        setPromotions([...promotions, data.promotion]);
-        setNewPromo({ title: "", price: "", oldPrice: "", discount: "", link: "", image: null });
-        setShowAddPromo(false);
+        if (editingPromo) {
+          setPromotions(promotions.map(p => p.id === editingPromo.id ? data.promotion : p));
+        } else {
+          setPromotions([...promotions, data.promotion]);
+        }
+        resetPromoForm();
+        alert(editingPromo ? "Promoție actualizată!" : "Promoție adăugată!");
+      } else {
+        console.error("Server returned error:", data);
+        alert(`Eroare: ${data.error || 'Unknown error'}`);
       }
     } catch (err) {
-      console.error("Error adding promotion:", err);
+      console.error("Error saving promotion:", err);
+      alert("Eroare la salvarea promoției: " + err.message);
     }
+  };
+
+  const editPromotion = (promo) => {
+    setEditingPromo(promo);
+    setNewPromo({
+      title: promo.name,
+      price: promo.new_price,
+      oldPrice: promo.old_price || "",
+      discount: promo.discount || "",
+      link: promo.link || "",
+      image: null
+    });
+    setShowAddPromo(true);
   };
 
   const deletePromotion = async (id) => {
@@ -770,13 +836,13 @@ export default function Dashboard() {
               </button>
             </div>
 
-            {/* Add Promotion Modal */}
+            {/* Add/Edit Promotion Modal */}
             {showAddPromo && (
               <div className="modal-overlay">
                 <div className="modal">
                   <div className="modal-header">
-                    <h2>Adaugă Promoție Nouă</h2>
-                    <button className="close-btn" onClick={() => setShowAddPromo(false)}>
+                    <h2>{editingPromo ? "Editează Promoție" : "Adaugă Promoție Nouă"}</h2>
+                    <button className="close-btn" onClick={resetPromoForm}>
                       <FaTimes />
                     </button>
                   </div>
@@ -797,7 +863,7 @@ export default function Dashboard() {
                         <input
                           type="text"
                           value={newPromo.oldPrice}
-                          onChange={(e) => setNewPromo({...newPromo, oldPrice: e.target.value})}
+                          onChange={(e) => handlePriceChange('oldPrice', e.target.value)}
                           placeholder="ex: 120,000"
                         />
                       </div>
@@ -806,19 +872,20 @@ export default function Dashboard() {
                         <input
                           type="text"
                           value={newPromo.price}
-                          onChange={(e) => setNewPromo({...newPromo, price: e.target.value})}
+                          onChange={(e) => handlePriceChange('price', e.target.value)}
                           placeholder="ex: 99,900"
                           required
                         />
                       </div>
                     </div>
                     <div className="form-group">
-                      <label>Reducere (%):</label>
+                      <label>Reducere (se calculează automat):</label>
                       <input
                         type="text"
                         value={newPromo.discount}
-                        onChange={(e) => setNewPromo({...newPromo, discount: e.target.value})}
-                        placeholder="ex: 15%"
+                        readOnly
+                        placeholder="Se va calcula automat"
+                        style={{ background: '#f5f5f5', cursor: 'not-allowed' }}
                       />
                     </div>
                     <div className="form-group">
@@ -827,21 +894,27 @@ export default function Dashboard() {
                         type="text"
                         value={newPromo.link}
                         onChange={(e) => setNewPromo({...newPromo, link: e.target.value})}
-                        placeholder="ex: /produse/tractoare/1"
+                        placeholder="ex: /produse/tractoare/tractor-hanwo-504"
                         required
                       />
                     </div>
                     <div className="form-group">
-                      <label>Imagine Produs:</label>
+                      <label>Imagine Produs: {editingPromo && "(lasă gol pentru a păstra imaginea curentă)"}</label>
                       <input
                         type="file"
                         accept="image/*"
                         onChange={handlePromoImageChange}
                       />
+                      {editingPromo && editingPromo.image && (
+                        <div className="current-image-preview">
+                          <p style={{marginTop: '10px', color: '#666'}}>Imagine curentă:</p>
+                          <img src={editingPromo.image.startsWith('http') ? editingPromo.image : `${API_URL}${editingPromo.image}`} alt="Current" style={{maxWidth: '150px', marginTop: '5px'}} />
+                        </div>
+                      )}
                     </div>
                     <div className="form-actions">
-                      <button type="button" onClick={() => setShowAddPromo(false)}>Anulează</button>
-                      <button type="submit" className="submit-btn">Salvează Promoția</button>
+                      <button type="button" className="cancel-btn" onClick={resetPromoForm}>Anulează</button>
+                      <button type="submit" className="submit-btn">{editingPromo ? "Salvează Modificările" : "Salvează Promoția"}</button>
                     </div>
                   </form>
                 </div>
@@ -865,10 +938,16 @@ export default function Dashboard() {
                         {promo.old_price && <span className="old-price">{promo.old_price} lei</span>}
                         <span className="new-price">{promo.new_price} lei</span>
                       </div>
+                      {promo.link && <p className="promo-link-display">Link: {promo.link}</p>}
                     </div>
-                    <button className="delete-promo" onClick={() => deletePromotion(promo.id)}>
-                      <FaTrash />
-                    </button>
+                    <div className="product-actions">
+                      <button className="edit-btn" onClick={() => editPromotion(promo)}>
+                        <FaEdit /> Editează
+                      </button>
+                      <button className="delete-btn" onClick={() => deletePromotion(promo.id)}>
+                        <FaTrash /> Şterge
+                      </button>
+                    </div>
                   </div>
                 ))
               )}
@@ -920,12 +999,12 @@ export default function Dashboard() {
                     </div>
                     <div className="form-row">
                       <div className="form-group">
-                        <label>Preț (lei): *</label>
+                        <label>Preț (doar număr): *</label>
                         <input
                           type="text"
                           value={productForm.price}
                           onChange={(e) => setProductForm({...productForm, price: e.target.value})}
-                          placeholder="ex: 99,900.00"
+                          placeholder="ex: 99,900.00 (se va adăuga automat 'Lei')"
                           required
                         />
                       </div>
@@ -1010,7 +1089,7 @@ export default function Dashboard() {
                     <div className="product-info">
                       <h3>{product.name}</h3>
                       <span className="product-category">{product.category}</span>
-                      <span className="product-price">{product.price} lei</span>
+                      <span className="product-price">{product.price} Lei</span>
                     </div>
                     <div className="product-actions">
                       <button className="edit-btn" onClick={() => editProduct(product)}>

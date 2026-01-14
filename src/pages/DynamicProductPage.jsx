@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import "./TractorPage.css";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock } from "react-icons/fa";
 
-const API_URL = import.meta.env.PROD ? "https://hanwo-backend.onrender.com" : "http://localhost:4000";
+const API_URL = "http://localhost:4000";
 
 export default function DynamicProductPage() {
   const { slug } = useParams();
@@ -103,35 +103,43 @@ export default function DynamicProductPage() {
     <div className="product-page">
       <Link to="/produse/tractoare" className="back-link">← Înapoi la Tractoare</Link>
 
-      {/* Imagine principală */}
-      <div className="main-image">
-        <img src={mainImage} alt={product.name} />
+      {/* Product Layout: Image Left, Info Right */}
+      <div className="product-layout">
+        {/* Left Side: Image Gallery */}
+        <div className="product-gallery">
+          <div className="main-image">
+            <img src={mainImage} alt={product.name} />
+          </div>
+          
+          {/* Galerie thumbnail-uri */}
+          {allImages.length > 1 && (
+            <div className="thumbnails-horizontal">
+              {allImages.map((img, index) => (
+                <img
+                  key={index}
+                  src={img}
+                  alt={`${product.name} ${index + 1}`}
+                  onClick={() => setMainImage(img)}
+                  className={img === mainImage ? "active-thumb" : ""}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Right Side: Product Info */}
+        <div className="product-info-right">
+          <h1 className="red-title">{product.name}</h1>
+          <p className="price">Preț de bază: {product.price} Lei</p>
+
+          {/* Descriere produs */}
+          {product.description && (
+            <div className="product-description">
+              <div dangerouslySetInnerHTML={{ __html: product.description.replace(/\n/g, '<br/>') }} />
+            </div>
+          )}
+        </div>
       </div>
-
-      {/* Galerie thumbnail-uri */}
-      {allImages.length > 1 && (
-        <div className="thumbnails-horizontal">
-          {allImages.map((img, index) => (
-            <img
-              key={index}
-              src={img}
-              alt={`${product.name} ${index + 1}`}
-              onClick={() => setMainImage(img)}
-              className={img === mainImage ? "active-thumb" : ""}
-            />
-          ))}
-        </div>
-      )}
-
-      <h1 className="red-title">{product.name}</h1>
-      <p className="price">Preț de bază: {product.price} lei</p>
-
-      {/* Descriere produs */}
-      {product.description && (
-        <div className="product-description">
-          <div dangerouslySetInnerHTML={{ __html: product.description.replace(/\n/g, '<br/>') }} />
-        </div>
-      )}
 
       {/* Formular Cerere Ofertă */}
       <div className="quote-request-section">

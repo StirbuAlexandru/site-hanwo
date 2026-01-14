@@ -29,52 +29,146 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.2);
+  animation: fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Hero content container */
+.hero-content {
+  text-align: center;
+  animation: slideUp 1.2s ease both;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-title {
+  font-size: 5.5rem;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 20px 0;
+  letter-spacing: 15px;
+  text-shadow: 
+    0 0 20px rgba(0, 0, 0, 1),
+    0 0 40px rgba(0, 0, 0, 0.9),
+    0 4px 8px rgba(0, 0, 0, 0.8),
+    0 8px 16px rgba(0, 0, 0, 0.7);
+  animation: slideDown 1s ease 0.3s both;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0 0 40px 0;
+  letter-spacing: 3px;
+  text-shadow: 
+    0 0 15px rgba(0, 0, 0, 1),
+    0 0 30px rgba(0, 0, 0, 0.9),
+    0 2px 8px rgba(0, 0, 0, 0.8);
+  animation: slideDown 1s ease 0.5s both;
 }
 
 /* Buton principal */
 .hero-button {
   display: inline-block;
-  padding: 20px 50px;
+  padding: 22px 55px;
   border: 3px solid #ffffff;
   color: #ffffff;
-  font-size: 1.8rem;
-  font-weight: 600;
-  background-color: transparent;
+  font-size: 1.9rem;
+  font-weight: 700;
+  background-color: rgba(196, 0, 23, 0.85);
   border-radius: 50px;
   text-decoration: none;
   transition: all 0.3s ease;
   text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 0 0 rgba(255, 255, 255, 0.5);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: 'Poppins', sans-serif;
+  animation: slideDown 1s ease 0.7s both;
 }
 
 .hero-button:hover {
-  background-color: #c40017;
-  border-color: #c40017;
-  color: #ffffff;
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: #c40017;
+  transform: translateY(-3px);
+  box-shadow: 0 15px 50px rgba(196, 0, 23, 0.6), 0 0 30px rgba(255, 255, 255, 0.8);
 }
 
 /* ================= SECȚIUNEA PRODUSE ================= */
 .produse {
   padding: 100px 5% 150px 5%;
-  background-color: #ffffff;
+  background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 50%, #ffffff 100%);
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.produse::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(196, 0, 23, 0.03) 0%, transparent 70%);
+  animation: rotateGradient 20s linear infinite;
+}
+
+@keyframes rotateGradient {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .section-title {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   margin-bottom: 60px;
-  color: #c40017; /* Changed to red */
+  color: #c40017;
   position: relative;
+  z-index: 1;
+  animation: slideDown 1s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .section-title::after {
   content: "";
   display: block;
-  width: 60px;
-  height: 4px;
-  background-color: #c40017;
-  margin: 15px auto 0;
-  border-radius: 2px;
+  width: 80px;
+  height: 5px;
+  background: linear-gradient(90deg, #c40017 0%, #ff4d4d 100%);
+  margin: 20px auto 0;
+  border-radius: 3px;
+  animation: expandLine 1s ease 0.5s both;
+}
+
+@keyframes expandLine {
+  from { width: 0; }
+  to { width: 80px; }
 }
 
 /* Categorii în linie */
@@ -179,14 +273,46 @@
   width: 350px;
   border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 8px 30px rgba(196, 0, 23, 0.3); /* Red shadow */
+  box-shadow: 0 8px 30px rgba(196, 0, 23, 0.25);
   padding-bottom: 22px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  animation: cardSlideUp 0.8s ease both;
+  z-index: 1;
+}
+
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.carousel-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(196, 0, 23, 0.05) 0%, rgba(255, 77, 77, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+  border-radius: 18px;
 }
 
 .carousel-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 14px 40px rgba(196, 0, 23, 0.4); /* Enhanced red shadow on hover */
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(196, 0, 23, 0.4);
+}
+
+.carousel-card:hover::before {
+  opacity: 1;
 }
 
 .carousel-image-wrapper {
@@ -223,14 +349,14 @@
 }
 
 .carousel-arrow {
-  background: white;
-  border: none;
+  background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
+  border: 2px solid rgba(196, 0, 23, 0.2);
   font-size: 2rem;
   cursor: pointer;
-  padding: 8px 14px;
+  padding: 12px 16px;
   border-radius: 50%;
-  box-shadow: 0 4px 15px rgba(196, 0, 23, 0.3); /* Red shadow */
-  transition: 0.2s;
+  box-shadow: 0 4px 20px rgba(196, 0, 23, 0.25);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -239,8 +365,11 @@
 }
 
 .carousel-arrow:hover {
-  transform: translateY(-50%) scale(1.12);
-  box-shadow: 0 6px 20px rgba(196, 0, 23, 0.4); /* Enhanced red shadow */
+  transform: translateY(-50%) scale(1.15);
+  box-shadow: 0 8px 30px rgba(196, 0, 23, 0.4);
+  background: linear-gradient(135deg, #c40017 0%, #ff4d4d 100%);
+  color: white;
+  border-color: #c40017;
 }
 
 .carousel-arrow.left {
@@ -254,23 +383,35 @@
 /* ================= SECȚIUNEA ABOUT ================= */
 .about-section {
   padding: 100px 10%;
-  background: #f8f8f8;
+  background: linear-gradient(135deg, #f8f8f8 0%, #ffffff 50%, #f8f8f8 100%);
   text-align: center;
   color: #1a1a1a;
+  position: relative;
+  overflow: hidden;
 }
 
 .about-title {
-  font-size: 2.8rem;
+  font-size: 3rem;
   font-weight: 700;
   color: #c40017;
+  animation: slideDown 1s ease;
+}
+
+.about-subtitle {
+  font-size: 1.3rem;
+  color: #666;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  animation: slideDown 1s ease 0.2s both;
 }
 
 .about-line {
-  width: 60px;
-  height: 4px;
-  background-color: #c40017;
+  width: 80px;
+  height: 5px;
+  background: linear-gradient(90deg, #c40017 0%, #ff4d4d 100%);
   margin: 15px auto 30px auto;
-  border-radius: 2px;
+  border-radius: 3px;
+  animation: expandLine 1s ease 0.5s both;
 }
 
 .about-text {
@@ -290,22 +431,52 @@
   flex-wrap: wrap;
   gap: 30px;
   margin-bottom: 60px;
+  animation: fadeInUp 1s ease 0.8s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .stat-item {
-  background: #fff;
+  background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
   border-radius: 20px;
-  padding: 30px 50px;
-  box-shadow: 0 5px 20px rgba(150, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  padding: 35px 50px;
+  box-shadow: 0 8px 30px rgba(196, 0, 23, 0.15);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   flex: 1;
   min-width: 200px;
   max-width: 230px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #c40017 0%, #ff4d4d 100%);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
 }
 
 .stat-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(200, 0, 0, 0.25);
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 15px 40px rgba(196, 0, 23, 0.3);
+}
+
+.stat-item:hover::before {
+  transform: scaleX(1);
 }
 
 .stat-item h3 {
@@ -323,22 +494,102 @@
 /* ================= SECȚIUNEA PROMOTII ================= */
 .promotii {
   padding: 100px 5%;
-  background-color: #fff;
+  background: linear-gradient(135deg, #ffffff 0%, #fff5f5 50%, #ffffff 100%);
   text-align: center;
   position: relative;
+  overflow: hidden;
+}
+
+.promotii::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(196, 0, 23, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-30px, -30px); }
 }
 
 .promotii-header h2 {
-  font-size: 2.4rem;
+  font-size: 2.8rem;
   color: #c40017;
   font-weight: 700;
   margin-bottom: 10px;
+  animation: slideDown 1s ease;
+  position: relative;
+  z-index: 1;
 }
 
 .promotii-header p {
   color: #555;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   margin-bottom: 60px;
+  animation: slideDown 1s ease 0.2s both;
+  position: relative;
+  z-index: 1;
+}
+
+/* No promotions message */
+.no-promotions {
+  text-align: center;
+  padding: 80px 40px;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+  border-radius: 20px;
+  max-width: 700px;
+  margin: 0 auto;
+  box-shadow: 0 8px 30px rgba(196, 0, 23, 0.15);
+  border: 2px solid #ffe0e0;
+}
+
+.no-promotions-icon {
+  font-size: 5rem;
+  margin-bottom: 25px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.no-promotions h3 {
+  font-size: 2rem;
+  color: #c40017;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.no-promotions p {
+  font-size: 1.15rem;
+  color: #666;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.view-products-btn {
+  display: inline-block;
+  padding: 15px 40px;
+  background: linear-gradient(135deg, #c40017 0%, #ff4d4d 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(196, 0, 23, 0.3);
+}
+
+.view-products-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(196, 0, 23, 0.4);
+  background: linear-gradient(135deg, #a00015 0%, #c40017 100%);
 }
 
 .promotii-container {
@@ -503,38 +754,67 @@
 /* ================= SECȚIUNEA RECENZII ================= */
 .recenzii-section {
   padding: 100px 10%;
-  background-color: #f8f8f8;
+  background: linear-gradient(135deg, #f9f9f9 0%, #ffffff 50%, #f9f9f9 100%);
   position: relative;
   overflow: hidden;
   animation: fadeIn 0.8s ease;
 }
 
+.recenzii-section::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  left: -200px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(196, 0, 23, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: float 8s ease-in-out infinite;
+}
+
+.recenzii-section::after {
+  content: '';
+  position: absolute;
+  bottom: -150px;
+  right: -150px;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(196, 0, 23, 0.04) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: float 10s ease-in-out infinite reverse;
+}
+
 .recenzii-titlu {
   text-align: center;
-  font-size: 2.6rem;
+  font-size: 2.8rem;
   font-weight: 700;
   color: #c40017;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   margin-bottom: 60px;
   position: relative;
+  z-index: 1;
+  animation: slideDown 1s ease;
 }
 
 .recenzii-titlu::after {
   content: "";
   display: block;
-  width: 80px;
-  height: 4px;
-  background-color: #c40017;
-  margin: 20px auto 0;
-  border-radius: 2px;
+  width: 100px;
+  height: 5px;
+  background: linear-gradient(90deg, #c40017 0%, #ff4d4d 100%);
+  margin: 25px auto 0;
+  border-radius: 3px;
+  animation: expandLine 1s ease 0.5s both;
 }
 
 .recenzii-container {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 60px;
+  gap: 80px;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
 }
 
 .recenzii-stanga {
@@ -544,11 +824,18 @@
 }
 
 .recenzii-descriere {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: #333;
+  font-size: 1.15rem;
+  line-height: 1.9;
+  color: #444;
   text-align: left;
   animation: slideLeft 0.8s ease;
+  padding: 30px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(249, 249, 249, 0.8) 100%);
+  border-radius: 16px;
+  border-left: 4px solid #c40017;
+  box-shadow: 
+    0 10px 40px -10px rgba(196, 0, 23, 0.15),
+    0 0 0 1px rgba(196, 0, 23, 0.05);
 }
 
 .recenzii-dreapta {
@@ -570,24 +857,45 @@
 }
 
 .recenzie-card {
-  background: #fff;
-  padding: 25px 30px;
-  border-radius: 18px;
-  box-shadow: 0 5px 20px rgba(196, 0, 23, 0.15);
-  transition: all 0.4s ease;
+  background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+  padding: 30px 35px;
+  border-radius: 20px;
+  box-shadow: 
+    0 20px 60px -15px rgba(196, 0, 23, 0.2),
+    0 0 0 1px rgba(196, 0, 23, 0.05);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  border: none;
+  overflow: hidden;
+}
+
+.recenzie-card::before {
+  content: '"';
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  font-size: 5rem;
+  color: rgba(196, 0, 23, 0.08);
+  font-family: Georgia, serif;
+  line-height: 1;
+  z-index: 0;
 }
 
 .recenzie-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(196, 0, 23, 0.3);
+  transform: translateY(-8px);
+  box-shadow: 
+    0 30px 80px -20px rgba(196, 0, 23, 0.3),
+    0 0 0 1px rgba(196, 0, 23, 0.1);
 }
 
 .recenzie-text {
   font-style: italic;
   color: #333;
-  font-size: 1rem;
-  margin-bottom: 15px;
+  font-size: 1.05rem;
+  margin-bottom: 20px;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
 }
 
 .recenzie-card h4 {
@@ -607,22 +915,23 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(196, 0, 23, 0.8);
+  background: linear-gradient(135deg, #c40017 0%, #ff4d4d 100%);
   color: #fff;
   border: none;
   border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  font-size: 1.5rem;
+  width: 50px;
+  height: 50px;
+  font-size: 1.6rem;
   cursor: pointer;
   transition: all 0.3s ease;
   z-index: 5;
+  box-shadow: 0 4px 15px rgba(196, 0, 23, 0.3);
 }
 
 .recenzie-arrow:hover {
-  background-color: #c40017;
-  transform: translateY(-50%) scale(1.15);
-  box-shadow: 0 6px 15px rgba(196, 0, 23, 0.3);
+  background: linear-gradient(135deg, #ff4d4d 0%, #c40017 100%);
+  transform: translateY(-50%) scale(1.2);
+  box-shadow: 0 8px 25px rgba(196, 0, 23, 0.5);
 }
 
 .recenzie-arrow.left {

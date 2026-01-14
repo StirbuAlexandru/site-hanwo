@@ -36,9 +36,7 @@ export default function Contact() {
 			setServerError(null);
 			setLoading(true);
 			
-			const API_URL = import.meta.env.PROD 
-				? "https://hanwo-backend.onrender.com" 
-				: "http://localhost:4000";
+			const API_URL = "http://localhost:4000";
 			
 			(async () => {
 				try {

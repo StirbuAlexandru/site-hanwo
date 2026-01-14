@@ -11,7 +11,7 @@ import tractor4 from "../assets/images/tractoare/Tractor4_main.jpg";
 import tractor5 from "../assets/images/tractoare/Tractor5_main.jpg";
 import tractor6 from "../assets/images/tractoare/Tractor6_main.jpg";
 
-const API_URL = import.meta.env.PROD ? "https://hanwo-backend.onrender.com" : "http://localhost:4000";
+const API_URL = "http://localhost:4000";
 
 export default function Home() {
   const [index, setIndex] = useState(0);
@@ -148,7 +148,7 @@ export default function Home() {
         price: p.new_price + " lei",
         oldPrice: p.old_price,
         discount: p.discount,
-        link: `/produse`
+        link: p.link || `/produse/tractoare`
       }))
     : defaultPromotii;
 
@@ -231,7 +231,11 @@ export default function Home() {
       <section className="hero">
         <img src={heroImage} alt="Utilaje agricole" className="hero-image" />
         <div className="hero-overlay">
-          <Link to="/produse/tractoare" className="hero-button" aria-label="Desoperă produsele noastre">Desoperă</Link>
+          <div className="hero-content">
+            <h1 className="hero-title">HANWO</h1>
+            <p className="hero-subtitle">Putere. Performanță. Agricultură Modernă.</p>
+            <Link to="/produse/tractoare" className="hero-button" aria-label="Descoperă produsele noastre">Descoperă</Link>
+          </div>
         </div>
       </section>
 
@@ -297,51 +301,60 @@ export default function Home() {
       {/* PROMOTII */}
       <section className="promotii" role="region" aria-label="Promoții Hanwo">
         <div className="promotii-header">
-          <h2>Promotii Hanwo</h2>
+          <h2>Promoții Hanwo</h2>
           <p>Oferte speciale pentru echipamentele agricole</p>
         </div>
 
-        <div className="promotii-container">
-          <button 
-            className="promotii-arrow left" 
-            onClick={handlePrevPromo} 
-            aria-label="Promoția anterioară"
-          >
-            ❮
-          </button>
-
-          <div className="promotii-track">
-            {(window.innerWidth < 768
-              ? [promotii[promoIndex]] // doar un produs pe telefon
-              : promotii.length >= 2 
-                ? [promotii[promoIndex], promotii[(promoIndex + 1) % promotii.length]]
-                : [promotii[promoIndex]]
-            ).map((promo, i) => (
-              <div key={i} className="promotii-card">
-                <Link to={promo.link} className="promotii-image-wrapper" tabIndex="-1">
-                  <img src={promo.src} alt={promo.title} className="promotii-image" loading="lazy" />
-                  {promo.discount && <span className="discount-badge">-{promo.discount}</span>}
-                </Link>
-                <div className="promotii-content">
-                  <h3 className="promotii-title">{promo.title}</h3>
-                  <div className="promotii-prices">
-                    {promo.oldPrice && <span className="old-price">{promo.oldPrice} lei</span>}
-                    <p className="promotii-price">{promo.price}</p>
-                  </div>
-                  <Link to={promo.link} className="promotii-link">Vezi detalii →</Link>
-                </div>
-              </div>
-            ))}
+        {promotiiDinamic.length === 0 ? (
+          <div className="no-promotions">
+            <div className="no-promotions-icon">🎉</div>
+            <h3>Fii la curent cu noile promoții!</h3>
+            <p>Momentan nu avem promoții active, dar revino curând pentru oferte speciale.</p>
+            <Link to="/produse/tractoare" className="view-products-btn">Vezi Produsele Noastre</Link>
           </div>
+        ) : (
+          <div className="promotii-container">
+            <button 
+              className="promotii-arrow left" 
+              onClick={handlePrevPromo} 
+              aria-label="Promoția anterioară"
+            >
+              ❮
+            </button>
 
-          <button 
-            className="promotii-arrow right" 
-            onClick={handleNextPromo} 
-            aria-label="Următoarea promoție"
-          >
-            ❯
-          </button>
-        </div>
+            <div className="promotii-track">
+              {(window.innerWidth < 768
+                ? [promotii[promoIndex]] // doar un produs pe telefon
+                : promotii.length >= 2 
+                  ? [promotii[promoIndex], promotii[(promoIndex + 1) % promotii.length]]
+                  : [promotii[promoIndex]]
+              ).map((promo, i) => (
+                <div key={i} className="promotii-card">
+                  <Link to={promo.link} className="promotii-image-wrapper" tabIndex="-1">
+                    <img src={promo.src} alt={promo.title} className="promotii-image" loading="lazy" />
+                    {promo.discount && <span className="discount-badge">-{promo.discount}</span>}
+                  </Link>
+                  <div className="promotii-content">
+                    <h3 className="promotii-title">{promo.title}</h3>
+                    <div className="promotii-prices">
+                      {promo.oldPrice && <span className="old-price">{promo.oldPrice} lei</span>}
+                      <p className="promotii-price">{promo.price}</p>
+                    </div>
+                    <Link to={promo.link} className="promotii-link">Vezi detalii →</Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <button 
+              className="promotii-arrow right" 
+              onClick={handleNextPromo} 
+              aria-label="Următoarea promoție"
+            >
+              ❯
+            </button>
+          </div>
+        )}
       </section>
 
       {/* RECENZII */}

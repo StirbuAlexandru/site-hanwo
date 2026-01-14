@@ -100,9 +100,7 @@ function FooterContactForm() {
 
     setLoading(true);
     
-    const API_URL = import.meta.env.PROD 
-      ? "https://hanwo-backend.onrender.com" 
-      : "http://localhost:4000";
+    const API_URL = "http://localhost:4000";
     
     try {
       const res = await fetch(`${API_URL}/api/messages`, {

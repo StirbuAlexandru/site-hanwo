@@ -120,10 +120,10 @@ export default function About() {
 
             </p>
             <p>
-              Fiecare client și fiecare colaborare reprezintă o oportunitate#
+              Fiecare client și fiecare colaborare reprezintă o oportunitate
               de a demonstra seriozitate, inovație și respect pentru tradițiile
               agricole. 
-              Privim spre viitor cu aceeași pasiune care ne-a ghidat de la început
+              Privim spre viitor cu aceeași pasiune care ne-a ghidat de la început.
             </p>
             <p>
 

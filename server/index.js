@@ -624,7 +624,8 @@ ${message}`;
             image: imagePath,
             old_price: fields.oldPrice || "",
             new_price: fields.price || "",
-            discount: fields.discount || ""
+            discount: fields.discount || "",
+            link: fields.link || ""
           }])
           .select()
           .single();
@@ -633,6 +634,54 @@ ${message}`;
         return sendJSON(res, 200, { ok: true, promotion });
       } catch (err) {
         console.error("Error adding promotion:", err);
+        return sendJSON(res, 500, { ok: false, error: err.message });
+      }
+    });
+    return;
+  }
+
+  // ==================== UPDATE PROMOTION ====================
+  if (req.url.match(/\/api\/promotions\/[a-zA-Z0-9-]+$/) && req.method === "PUT") {
+    if (!isAuthorized(req)) {
+      return sendJSON(res, 401, { ok: false, error: "Unauthorized" });
+    }
+    const id = req.url.split('/').pop();
+    parseMultipart(req, async (fields) => {
+      try {
+        // Get existing promotion
+        const { data: existing } = await supabase
+          .from('promotions')
+          .select('*')
+          .eq('id', id)
+          .single();
+
+        let imagePath = existing?.image || "";
+        
+        // If new image uploaded, use it
+        if (fields.image && fields.image.data) {
+          const ext = path.extname(fields.image.fileName).toLowerCase();
+          const fileName = `promo-${Date.now()}${ext}`;
+          imagePath = await uploadToSupabaseStorage(fields.image.data, fileName, 'promotions');
+        }
+        
+        const { data: promotion, error } = await supabase
+          .from('promotions')
+          .update({
+            name: fields.title || "",
+            image: imagePath,
+            old_price: fields.oldPrice || "",
+            new_price: fields.price || "",
+            discount: fields.discount || "",
+            link: fields.link || ""
+          })
+          .eq('id', id)
+          .select()
+          .single();
+        
+        if (error) throw error;
+        return sendJSON(res, 200, { ok: true, promotion });
+      } catch (err) {
+        console.error("Error updating promotion:", err);
         return sendJSON(res, 500, { ok: false, error: err.message });
       }
     });
