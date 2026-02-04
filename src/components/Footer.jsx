@@ -53,7 +53,7 @@ export default function Footer() {
             </div>
             {/* ANPC logos - vizibile doar pe mobil */}
             <div className="anpc-logos-mobile">
-              <a href="https://anpc.ro/ce-este-sal/?_ga=2.141123634.1405796489.1718727746-2018146410.1717702664" target="_blank" rel="noopener noreferrer">
+              <a href="https://anpc.ro/" target="_blank" rel="noopener noreferrer">
                 <img src={anpc} alt="ANPC" />
               </a>
               <a href="https://consumer-redress.ec.europa.eu/site-relocation_en?event=main.home2.show&lng=RO&_ga=2.254878728.1405796489.1718727746-2018146410.1717702664" target="_blank" rel="noopener noreferrer">
@@ -71,7 +71,7 @@ export default function Footer() {
 
         {/* LOGO-URI ANPC & SOL cu link extern */}
         <div className="anpc-logos">
-          <a href="https://anpc.ro/ce-este-sal/?_ga=2.141123634.1405796489.1718727746-2018146410.1717702664" target="_blank" rel="noopener noreferrer">
+          <a href="https://anpc.ro/" target="_blank" rel="noopener noreferrer">
             <img src={anpc} alt="ANPC" />
           </a>
           <a href="https://consumer-redress.ec.europa.eu/site-relocation_en?event=main.home2.show&lng=RO&_ga=2.254878728.1405796489.1718727746-2018146410.1717702664" target="_blank" rel="noopener noreferrer">
