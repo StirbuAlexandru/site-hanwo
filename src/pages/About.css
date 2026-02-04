@@ -29,6 +29,8 @@
   justify-content: space-between;
   padding: 60px 10%;
   gap: 40px;
+  max-width: 1920px;
+  margin: 0 auto;
 
   /* ADĂUGAT: efect de apariție (fade + translate) */
   opacity: 0; /* ADĂUGAT */
@@ -53,23 +55,24 @@
   font-weight: 700;
   position: relative;
   letter-spacing: 1px;
+  text-align: center;
 }
 
 /* ADĂUGAT: linie decorativă subtilă sub titlu */
 .about-text h2::after {
   content: "";
   display: block;
-  width: 100px;
+  width: 120px;
   height: 5px;
   background: linear-gradient(90deg, #c40017 0%, #ff4d4d 100%);
-  margin-top: 15px;
+  margin: 15px auto 0;
   border-radius: 3px;
   animation: expandLine 1s ease 0.5s both;
 }
 
 @keyframes expandLine {
   from { width: 0; }
-  to { width: 100px; }
+  to { width: 120px; }
 }
 
 .about-image {
@@ -97,7 +100,7 @@
 .about-highlight-container {
   display: flex;
   justify-content: flex-end;
-  padding: 0 10% 100px;
+  padding: 0 0 60px 10%;
 }
 
 .about-highlight {
@@ -106,12 +109,14 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-around;
-  padding: 70px 90px;
-  border-top-left-radius: 90px;
-  border-bottom-left-radius: 90px;
-  max-width: 70%;
+  padding: 50px 60px;
+  border-top-left-radius: 60px;
+  border-bottom-left-radius: 60px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  width: 75%;
   box-shadow: 
-    0 20px 60px -15px rgba(196, 0, 23, 0.4),
+    0 15px 40px -10px rgba(196, 0, 23, 0.35),
     0 0 0 1px rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
@@ -279,16 +284,17 @@
   margin-bottom: 40px;
   font-weight: 700;
   position: relative;
+  text-align: center;
 }
 
 /* Linie decorativă sub titlu */
 .innovation-section h2::after {
   content: "";
   display: block;
-  width: 80px;
+  width: 100px;
   height: 4px;
-  background-color: #c40017;
-  margin-top: 10px;
+  background: linear-gradient(90deg, #c40017 0%, #ff4d4d 100%);
+  margin: 15px auto 0;
   border-radius: 2px;
 }
 
@@ -420,7 +426,6 @@
     display: none;
   }
 
-  /* Responsive Innovation System */
   .innovation-container {
     flex-direction: column;
   }
@@ -429,96 +434,145 @@
     flex: 1 1 100%;
     margin-bottom: 30px;
   }
-  @media (max-width: 600px) {
+}
+
+/* TELEFON */
+@media (max-width: 480px) {
+  .about-page {
+    padding-top: 80px;
+  }
+
+  .about-page::before {
+    display: none;
+  }
+
+  /* SECTIUNI TEXT + IMAGINE */
   .about-section {
-    flex-direction: column; /* text peste imagine */
+    flex-direction: column;
     text-align: center;
-    padding: 30px 5%;
+    padding: 30px 15px;
     gap: 20px;
-    transform: none;
-    opacity: 1;
-    animation: none;
   }
 
-  /* Forțăm ca imaginile să fie mereu după text */
-  .about-section .about-text {
-    order: 0; /* textul primul */
+  .about-section.reverse {
+    flex-direction: column;
   }
-
-  .about-section .about-image {
-    order: 1; /* imaginea după text */
+  
+  /* Prima secțiune (Despre HANWO): text primul, imagine după */
+  .about-section:first-of-type .about-text {
+    order: 1;
+  }
+  
+  .about-section:first-of-type .about-image {
+    order: 2;
+  }
+  
+  /* A doua secțiune (Am creat...): text primul, imagine după */
+  .about-section:nth-of-type(2) .about-text {
+    order: 1;
+  }
+  
+  .about-section:nth-of-type(2) .about-image {
+    order: 2;
   }
 
   .about-text {
-    font-size: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
   }
 
   .about-text h2 {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
   }
 
   .about-text h2::after {
     width: 60px;
     height: 3px;
+    margin: 10px auto 0;
+  }
+
+  .about-text p {
+    margin-bottom: 12px;
   }
 
   .about-image img {
     width: 100%;
-    max-width: 100%;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(196, 0, 23, 0.15);
   }
 
-  /* REDUCERE SECȚIUNE HIGHLIGHT */
+  /* HIGHLIGHT ROSU */
   .about-highlight-container {
-    justify-content: center;
-    padding: 0 5% 60px;
+    padding: 0 15px 40px;
   }
 
   .about-highlight {
     flex-direction: column;
-    border-radius: 30px;
-    max-width: 100%;
-    padding: 40px 20px;
+    border-radius: 20px;
+    padding: 30px 20px;
+    gap: 25px;
   }
 
   .highlight-item {
     width: 100%;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 0;
   }
 
   .highlight-item .icon {
+    width: 55px;
+    height: 55px;
+    font-size: 1.3rem;
     margin: 0 auto 15px;
-    width: 60px;
-    height: 60px;
-    font-size: 1.5rem;
   }
 
   .highlight-item p {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
   }
 
-  /* CHAIRMAN SECTION */
+  /* CHAIRMAN / AGRORUS */
+  .chairman-section {
+    padding: 40px 15px;
+  }
+
   .chairman-container {
     flex-direction: column;
     text-align: center;
-    padding: 60px 5%;
+    gap: 25px;
   }
 
   .chairman-text {
-    order: 0; /* textul primul */
+    order: 1;
+  }
+
+  .chairman-text h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .chairman-text h2::after {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+  }
+
+  .chairman-text p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 12px;
   }
 
   .chairman-image-wrapper {
-    order: 1; /* imaginea după text */
-    margin-bottom: 25px;
+    order: 2;
   }
 
   .chairman-image img {
     width: 100%;
-    max-width: 300px;
-    border-radius: 15px;
+    max-width: 280px;
+    border-radius: 12px;
   }
 
   .image-bg {
@@ -526,77 +580,59 @@
   }
 
   .chairman-signature {
-    font-size: 1rem;
+    font-size: 0.95rem;
+    margin-top: 20px;
   }
 
   .chairman-signature::before {
     left: 50%;
     transform: translateX(-50%);
-    width: 50px;
+    width: 40px;
     height: 2px;
   }
 
-  /* INNOVATION SECTION */
+  /* INNOVATION */
   .innovation-section {
-    padding: 50px 5%;
+    padding: 40px 15px;
   }
 
   .innovation-section h2 {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
+    margin-bottom: 25px;
+    text-align: center;
   }
 
   .innovation-section h2::after {
     width: 60px;
     height: 3px;
+    margin: 10px auto 0;
   }
 
   .innovation-container {
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
   }
 
   .innovation-item {
-    flex: 1 1 100%;
     padding: 20px;
-    margin-bottom: 20px;
     border-radius: 12px;
+    margin-bottom: 0;
   }
 
   .innovation-item h3 {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+  }
+
+  .innovation-item h3::after {
+    width: 50px;
+    height: 2px;
   }
 
   .innovation-item p {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 10px;
   }
-}
-/* SPAȚIU PENTRU HEADER FIX */
-.about-page {
-  font-family: "Poppins", sans-serif;
-  color: #222;
-  background-color: #fff;
-  overflow-x: hidden;
-  padding-top: 120px; /* ADĂUGAT: spațiu ca să nu se suprapună cu header-ul */
-}
-
-/* Pe mobil, reduc padding-top pentru ecran mic */
-@media (max-width: 600px) {
-  .about-page {
-    padding-top: 100px; /* ADĂUGAT: spațiu mai mic pe mobil */
-  }
-
-  .about-section {
-    padding: 40px 5%;
-    gap: 20px;
-  }
-
-  .chairman-container {
-    padding: 60px 5%;
-  }
-
-  .innovation-section {
-    padding: 50px 5%;
-  }
-}
-
 }

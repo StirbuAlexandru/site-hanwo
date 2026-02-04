@@ -51,6 +51,15 @@ export default function Footer() {
               <a href="https://www.tiktok.com/@agrorus.ro?_r=1&_t=ZN-92LSLVkLO8k" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><FaTiktok /></a>
               <a href="https://www.youtube.com/@agrorus_ro" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><FaYoutube /></a>
             </div>
+            {/* ANPC logos - vizibile doar pe mobil */}
+            <div className="anpc-logos-mobile">
+              <a href="https://anpc.ro/ce-este-sal/?_ga=2.141123634.1405796489.1718727746-2018146410.1717702664" target="_blank" rel="noopener noreferrer">
+                <img src={anpc} alt="ANPC" />
+              </a>
+              <a href="https://consumer-redress.ec.europa.eu/site-relocation_en?event=main.home2.show&lng=RO&_ga=2.254878728.1405796489.1718727746-2018146410.1717702664" target="_blank" rel="noopener noreferrer">
+                <img src={sol} alt="SOL NPC" />
+              </a>
+            </div>
           </div>
 
           {/* Coloana 4: Formular */}
@@ -71,7 +80,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p> Website creator: Știrbu Alexandru, contact: +40 757 312 950.</p>
+          <p> Website creator: Știrbu Alexandru, contact: alexstirbu99@gmail.com</p>
         </div>
       </div>
     </footer>
@@ -113,7 +122,7 @@ function FooterContactForm() {
       } else {
         setSent(true);
         setForm({ name: "", email: "", message: "" });
-        setTimeout(() => setSent(false), 5000);
+        setTimeout(() => setSent(false), 3000);
       }
     } catch (err) {
       console.error(err);

@@ -16,6 +16,9 @@ const __dirname = path.dirname(__filename);
 const PORT = process.env.PORT || 4000;
 const UPLOADS_DIR = path.resolve("./server/uploads");
 
+// Frontend static files directory (production)
+const FRONTEND_DIST = path.resolve(__dirname, "../dist");
+
 // Supabase configuration
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
@@ -100,13 +103,12 @@ function getContentType(fileName) {
 
 function sendJSON(res, status, obj) {
   const payload = JSON.stringify(obj);
-  const allowedOrigin = process.env.NODE_ENV === 'production' 
-    ? 'https://hanwo.ro' 
-    : '*';
+  const allowedOrigins = ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:4000', 'https://hanwo.ro'];
+  const origin = process.env.NODE_ENV === 'production' ? 'https://hanwo.ro' : '*';
   
   res.writeHead(status, {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": allowedOrigin,
+    "Access-Control-Allow-Origin": origin,
     "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
     "Access-Control-Allow-Credentials": "true"
@@ -118,7 +120,7 @@ function sendJSON(res, status, obj) {
 function proxySupabaseImage(imageUrl, res) {
   console.log('Proxying image:', imageUrl);
   
-  const allowedOrigin = process.env.NODE_ENV === 'production' 
+  const origin = process.env.NODE_ENV === 'production' 
     ? 'https://hanwo.ro' 
     : '*';
   
@@ -135,7 +137,7 @@ function proxySupabaseImage(imageUrl, res) {
       res.writeHead(proxyRes.statusCode, {
         'Content-Type': contentType,
         'Content-Length': imageBuffer.length,
-        'Access-Control-Allow-Origin': allowedOrigin,
+        'Access-Control-Allow-Origin': origin,
         'Access-Control-Allow-Credentials': 'true',
         'Cache-Control': 'public, max-age=31536000'
       });
@@ -229,7 +231,7 @@ function serveStatic(req, res, filePath) {
     return res.end('File not found');
   }
   
-  const allowedOrigin = process.env.NODE_ENV === 'production' 
+  const origin = process.env.NODE_ENV === 'production' 
     ? 'https://hanwo.ro' 
     : '*';
   
@@ -239,7 +241,7 @@ function serveStatic(req, res, filePath) {
     res.writeHead(200, {
       'Content-Type': contentType,
       'Content-Length': data.length,
-      'Access-Control-Allow-Origin': allowedOrigin,
+      'Access-Control-Allow-Origin': origin,
       'Access-Control-Allow-Credentials': 'true',
       'Cache-Control': 'public, max-age=3600'
     });
@@ -336,14 +338,16 @@ const server = http.createServer(async (req, res) => {
   });
 
   // CORS configuration
-  const allowedOrigin = process.env.NODE_ENV === 'production' 
-    ? 'https://hanwo.ro' 
+  // In production, frontend and backend are on same origin (no CORS needed)
+  // In development, allow all origins
+  const origin = process.env.NODE_ENV === 'production' 
+    ? req.headers.origin || '*'
     : '*';
 
   // Handle CORS preflight (OPTIONS)
   if (req.method === "OPTIONS") {
     res.writeHead(204, {
-      "Access-Control-Allow-Origin": allowedOrigin,
+      "Access-Control-Allow-Origin": origin,
       "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type, Authorization",
       "Access-Control-Allow-Credentials": "true",
@@ -1085,10 +1089,62 @@ ${message}`;
     }
   }
 
-  // 404 - Route not found
+  // Serve static frontend files (production only)
+  if (process.env.NODE_ENV === 'production') {
+    // API routes already handled above, so any remaining requests are for frontend
+    const urlPath = req.url.split('?')[0]; // Remove query params
+    let filePath;
+    
+    // If it's a specific file request (has extension)
+    if (path.extname(urlPath)) {
+      filePath = path.join(FRONTEND_DIST, urlPath);
+    } else {
+      // For routes without extension, serve index.html (SPA routing)
+      filePath = path.join(FRONTEND_DIST, 'index.html');
+    }
+    
+    // Check if file exists
+    if (fs.existsSync(filePath)) {
+      const ext = path.extname(filePath);
+      const contentTypeMap = {
+        '.html': 'text/html',
+        '.js': 'text/javascript',
+        '.css': 'text/css',
+        '.json': 'application/json',
+        '.png': 'image/png',
+        '.jpg': 'image/jpeg',
+        '.jpeg': 'image/jpeg',
+        '.gif': 'image/gif',
+        '.svg': 'image/svg+xml',
+        '.ico': 'image/x-icon',
+        '.webp': 'image/webp',
+        '.woff': 'font/woff',
+        '.woff2': 'font/woff2',
+        '.ttf': 'font/ttf'
+      };
+      
+      const contentType = contentTypeMap[ext] || 'application/octet-stream';
+      
+      res.writeHead(200, {
+        'Content-Type': contentType,
+        'Cache-Control': ext === '.html' ? 'no-cache' : 'public, max-age=31536000'
+      });
+      
+      return fs.createReadStream(filePath).pipe(res);
+    }
+    
+    // If file not found in production, serve index.html for client-side routing
+    const indexPath = path.join(FRONTEND_DIST, 'index.html');
+    if (fs.existsSync(indexPath)) {
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      return fs.createReadStream(indexPath).pipe(res);
+    }
+  }
+  
+  // 404 - Route not found (only in development or if no file found)
   res.writeHead(404, {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": allowedOrigin,
+    "Access-Control-Allow-Origin": origin,
     "Access-Control-Allow-Credentials": "true"
   });
   res.end(JSON.stringify({
@@ -1129,12 +1185,19 @@ process.on('SIGINT', () => {
 
 server.listen(PORT, () => {
   const env = process.env.NODE_ENV || 'development';
+  const isProduction = env === 'production';
   console.log(`\n${'='.repeat(50)}`);
-  console.log(`🚀 HANWO Backend Server`);
+  console.log(`🚀 HANWO ${isProduction ? 'Full-Stack' : 'Backend'} Server`);
   console.log(`${'='.repeat(50)}`);
   console.log(`📍 Environment: ${env}`);
   console.log(`🌐 Server: http://localhost:${PORT}`);
   console.log(`🗄️  Database: Supabase (${SUPABASE_URL})`);
   console.log(`📧 Email: ${hasBrevoConfig ? 'Brevo API ✓' : 'Not configured'}`);
-  console.log(`🔒 CORS Origin: ${env === 'production' ? 'https://hanwo.ro' : 'Any (*)'}`);  console.log(`${'='.repeat(50)}\n`);
+  if (isProduction) {
+    console.log(`📦 Frontend: Serving from ${FRONTEND_DIST}`);
+    console.log(`🔒 CORS: Same-origin (frontend + backend together)`);
+  } else {
+    console.log(`🔒 CORS Origin: Any (*)`);
+  }
+  console.log(`${'='.repeat(50)}\n`);
 });

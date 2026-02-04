@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
-import ScrollTopButton from "./components/ScrollTopButton";
+
+import FloatingButtons from "./components/FloatingButtons";
 
 import Home from "./pages/Home";
 import Tractoare from "./pages/Tractoare";
@@ -42,7 +43,7 @@ function AppContent() {
       </Routes>
 
       {!isDashboard && <Footer />}
-      {!isDashboard && <ScrollTopButton />}
+      {!isDashboard && <FloatingButtons />}
     </>
   );
 }

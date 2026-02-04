@@ -102,17 +102,23 @@ export default function DynamicProductPage() {
     <div className="product-page">
       <Link to="/produse/tractoare" className="back-link">← Înapoi la Tractoare</Link>
 
-      {/* Product Layout: Image Left, Info Right */}
-      <div className="product-layout">
-        {/* Left Side: Image Gallery */}
-        <div className="product-gallery">
+      {/* Layout principal - totul într-un cadru */}
+      <div className="product-main-frame">
+        {/* Stânga: Imaginea mare */}
+        <div className="product-image-side">
           <div className="main-image">
             <img src={mainImage} alt={product.name} />
           </div>
+        </div>
+
+        {/* Dreapta: Titlu, Preț, Thumbnails */}
+        <div className="product-info-side">
+          <h1 className="red-title">{product.name}</h1>
+          <p className="price">Preț de bază: {product.price} Lei</p>
           
-          {/* Galerie thumbnail-uri */}
+          {/* Thumbnail-uri sub preț */}
           {allImages.length > 1 && (
-            <div className="thumbnails-horizontal">
+            <div className="thumbnails-grid">
               {allImages.map((img, index) => (
                 <img
                   key={index}
@@ -125,20 +131,17 @@ export default function DynamicProductPage() {
             </div>
           )}
         </div>
-
-        {/* Right Side: Product Info */}
-        <div className="product-info-right">
-          <h1 className="red-title">{product.name}</h1>
-          <p className="price">Preț de bază: {product.price} Lei</p>
-
-          {/* Descriere produs */}
-          {product.description && (
-            <div className="product-description">
-              <div dangerouslySetInnerHTML={{ __html: product.description.replace(/\n/g, '<br/>') }} />
-            </div>
-          )}
-        </div>
       </div>
+
+      {/* Descriere produs - sub cadru */}
+      {product.description && (
+        <div className="product-description-section">
+          <h2 className="section-title">Descriere</h2>
+          <div className="product-description">
+            <div dangerouslySetInnerHTML={{ __html: product.description.replace(/\n/g, '<br/>') }} />
+          </div>
+        </div>
+      )}
 
       {/* Formular Cerere Ofertă */}
       <div className="quote-request-section">

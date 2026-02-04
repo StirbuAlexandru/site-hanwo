@@ -20,7 +20,7 @@ export default function Header() {
   }, [location.pathname]);
 
   return (
-    <header className={`header ${scrolled ? "scrolled" : ""}`}>
+    <header className={`header ${scrolled ? "scrolled" : ""} ${menuOpen ? "menu-open" : ""}`}>
       <div className="header-container">
 
         {/* LOGO */}
