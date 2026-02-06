@@ -79,9 +79,7 @@ export default function Footer() {
           </a>
         </div>
 
-        <div className="footer-bottom">
-          <p> Website creator: Știrbu Alexandru, contact: alexstirbu99@gmail.com</p>
-        </div>
+
       </div>
     </footer>
   );
