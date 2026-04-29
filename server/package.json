@@ -1,7 +1,7 @@
 {
   "name": "hanwo-backend",
   "version": "1.0.0",
-  "description": "HANWO Backend API with Node.js and Supabase",
+  "description": "HANWO Backend API with Node.js and JSON File Storage",
   "type": "module",
   "main": "index.js",
   "scripts": {
@@ -9,11 +9,10 @@
     "dev": "node index.js",
     "build": "echo 'No build needed for backend'"
   },
-  "keywords": ["hanwo", "backend", "api", "supabase"],
+  "keywords": ["hanwo", "backend", "api", "json-storage"],
   "author": "HANWO Romania",
   "license": "ISC",
   "dependencies": {
-    "@supabase/supabase-js": "^2.89.0",
     "dotenv": "^16.4.7"
   },
   "engines": {

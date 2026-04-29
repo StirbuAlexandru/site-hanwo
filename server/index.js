@@ -1,11 +1,10 @@
-// Backend server with Supabase database
+// Backend server with JSON file storage
 import http from "http";
 import fs from "fs";
 import path from "path";
 import https from "https";
 import { config } from "dotenv";
 import { fileURLToPath } from 'url';
-import { createClient } from '@supabase/supabase-js';
 
 // Load environment variables from .env file
 config();
@@ -15,21 +14,50 @@ const __dirname = path.dirname(__filename);
 
 const PORT = process.env.PORT || 4000;
 const UPLOADS_DIR = path.resolve("./server/uploads");
+const DATA_DIR = path.resolve("./server/data");
 
 // Frontend static files directory (production)
 const FRONTEND_DIST = path.resolve(__dirname, "../dist");
 
-// Supabase configuration
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
+// Ensure data directory exists
+function ensureDataDir() {
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+  }
+}
+ensureDataDir();
 
-if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
-  console.error("ERROR: Missing Supabase configuration in .env file");
-  process.exit(1);
+// Helper functions for JSON file operations
+function readJSONFile(filename) {
+  try {
+    const filePath = path.join(DATA_DIR, filename);
+    if (!fs.existsSync(filePath)) {
+      return [];
+    }
+    const data = fs.readFileSync(filePath, 'utf8');
+    return JSON.parse(data);
+  } catch (err) {
+    console.error(`Error reading ${filename}:`, err);
+    return [];
+  }
 }
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
-console.log("Supabase connected:", SUPABASE_URL);
+function writeJSONFile(filename, data) {
+  try {
+    const filePath = path.join(DATA_DIR, filename);
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+    return true;
+  } catch (err) {
+    console.error(`Error writing ${filename}:`, err);
+    return false;
+  }
+}
+
+function generateId() {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+}
+
+console.log("JSON file storage initialized:", DATA_DIR);
 
 // Admin password (set in .env)
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "hanwo2024";
@@ -66,27 +94,6 @@ function deleteLocalImage(imageUrl) {
     fs.unlinkSync(filePath);
     console.log('Deleted image:', filePath);
   }
-}
-
-// Keep Supabase upload for hero image (already working)
-async function uploadToSupabaseStorage(fileData, fileName, folder = 'hero') {
-  const filePath = `${folder}/${fileName}`;
-  
-  const { data, error } = await supabase.storage
-    .from('images')
-    .upload(filePath, fileData, {
-      contentType: getContentType(fileName),
-      upsert: true
-    });
-  
-  if (error) throw error;
-  
-  // Get public URL
-  const { data: urlData } = supabase.storage
-    .from('images')
-    .getPublicUrl(filePath);
-  
-  return urlData.publicUrl;
 }
 
 function getContentType(fileName) {
@@ -408,25 +415,21 @@ const server = http.createServer(async (req, res) => {
           return sendJSON(res, 400, { ok: false, error: "name,email,message required" });
         }
 
-        // Insert into Supabase
-        const { data: entry, error } = await supabase
-          .from('messages')
-          .insert([{
-            name,
-            email,
-            phone: phone || null,
-            message,
-            source: source || "contact-page",
-            product: product || null,
-            is_read: false
-          }])
-          .select()
-          .single();
-
-        if (error) {
-          console.error("Supabase insert error:", error);
-          return sendJSON(res, 500, { ok: false, error: error.message });
-        }
+        // Save to JSON file
+        const messages = readJSONFile('messages.json');
+        const newMessage = {
+          id: generateId(),
+          name,
+          email,
+          phone: phone || null,
+          message,
+          source: source || "contact-page",
+          product: product || null,
+          is_read: false,
+          created_at: new Date().toISOString()
+        };
+        messages.unshift(newMessage);
+        writeJSONFile('messages.json', messages);
 
         // try to send email via Brevo if configured
         if (hasBrevoConfig) {
@@ -443,14 +446,14 @@ ${message}`;
           
           try {
             await sendEmailViaBrevo(mailTo, subject, html, text);
-            return sendJSON(res, 200, { ok: true, entry, emailSent: true });
+            return sendJSON(res, 200, { ok: true, entry: newMessage, emailSent: true });
           } catch (err) {
             console.error('Failed to send email via Brevo:', err.message);
-            return sendJSON(res, 200, { ok: true, entry, emailSent: false, emailError: err.message });
+            return sendJSON(res, 200, { ok: true, entry: newMessage, emailSent: false, emailError: err.message });
           }
         }
 
-        return sendJSON(res, 200, { ok: true, entry, emailSent: false });
+        return sendJSON(res, 200, { ok: true, entry: newMessage, emailSent: false });
       } catch (err) {
         console.error("Failed to process message:", err);
         return sendJSON(res, 500, { ok: false, error: "server error" });
@@ -461,13 +464,8 @@ ${message}`;
 
   if (req.url === "/api/messages" && req.method === "GET") {
     try {
-      const { data: messages, error } = await supabase
-        .from('messages')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      return sendJSON(res, 200, { ok: true, messages: messages || [] });
+      const messages = readJSONFile('messages.json');
+      return sendJSON(res, 200, { ok: true, messages });
     } catch (err) {
       console.error(err);
       return sendJSON(res, 500, { ok: false, error: err.message });
@@ -481,12 +479,9 @@ ${message}`;
     }
     const id = req.url.split('/').pop();
     try {
-      const { error } = await supabase
-        .from('messages')
-        .delete()
-        .eq('id', id);
-
-      if (error) throw error;
+      const messages = readJSONFile('messages.json');
+      const filtered = messages.filter(m => m.id !== id);
+      writeJSONFile('messages.json', filtered);
       return sendJSON(res, 200, { ok: true });
     } catch (err) {
       return sendJSON(res, 500, { ok: false, error: err.message });
@@ -500,12 +495,9 @@ ${message}`;
     }
     const id = req.url.split('/')[3];
     try {
-      const { error } = await supabase
-        .from('messages')
-        .update({ is_read: true })
-        .eq('id', id);
-
-      if (error) throw error;
+      const messages = readJSONFile('messages.json');
+      const updated = messages.map(m => m.id === id ? { ...m, is_read: true } : m);
+      writeJSONFile('messages.json', updated);
       return sendJSON(res, 200, { ok: true });
     } catch (err) {
       return sendJSON(res, 500, { ok: false, error: err.message });
@@ -515,16 +507,8 @@ ${message}`;
   // ==================== GET HERO IMAGE SETTINGS ====================
   if (req.url === "/api/settings/hero" && req.method === "GET") {
     try {
-      const { data, error } = await supabase
-        .from('settings')
-        .select('value')
-        .eq('key', 'heroImage')
-        .single();
-
-      if (error || !data) {
-        return sendJSON(res, 200, { ok: true, heroImage: "" });
-      }
-      return sendJSON(res, 200, { ok: true, heroImage: data.value || "" });
+      const settings = readJSONFile('settings.json');
+      return sendJSON(res, 200, { ok: true, heroImage: settings.heroImage || "" });
     } catch (err) {
       return sendJSON(res, 200, { ok: true, heroImage: "" });
     }
@@ -541,15 +525,14 @@ ${message}`;
           const ext = path.extname(fields.heroImage.fileName).toLowerCase();
           const fileName = `hero-${Date.now()}${ext}`;
           
-          // Upload to Supabase Storage
-          const publicUrl = await uploadToSupabaseStorage(fields.heroImage.data, fileName, 'hero');
+          // Save locally
+          const publicUrl = saveImageLocally(fields.heroImage.data, fileName, 'hero');
           
-          // Save URL in settings table
-          const { error } = await supabase
-            .from('settings')
-            .upsert({ key: 'heroImage', value: publicUrl, updated_at: new Date().toISOString() }, { onConflict: 'key' });
+          // Save URL in settings
+          const settings = readJSONFile('settings.json');
+          settings.heroImage = publicUrl;
+          writeJSONFile('settings.json', settings);
           
-          if (error) throw error;
           return sendJSON(res, 200, { ok: true, heroImage: publicUrl });
         }
         return sendJSON(res, 400, { ok: false, error: "No file uploaded" });
@@ -575,12 +558,11 @@ ${message}`;
           return sendJSON(res, 400, { ok: false, error: "URL required" });
         }
         
-        // Save URL in settings table
-        const { error } = await supabase
-          .from('settings')
-          .upsert({ key: 'heroImage', value: url, updated_at: new Date().toISOString() }, { onConflict: 'key' });
+        // Save URL in settings
+        const settings = readJSONFile('settings.json');
+        settings.heroImage = url;
+        writeJSONFile('settings.json', settings);
         
-        if (error) throw error;
         return sendJSON(res, 200, { ok: true, heroImage: url });
       } catch (err) {
         console.error("Error setting hero image URL:", err);
@@ -593,13 +575,8 @@ ${message}`;
   // ==================== GET PROMOTIONS ====================
   if (req.url === "/api/promotions" && req.method === "GET") {
     try {
-      const { data: promotions, error } = await supabase
-        .from('promotions')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      return sendJSON(res, 200, { ok: true, promotions: promotions || [] });
+      const promotions = readJSONFile('promotions.json');
+      return sendJSON(res, 200, { ok: true, promotions });
     } catch (err) {
       return sendJSON(res, 200, { ok: true, promotions: [] });
     }
@@ -617,25 +594,25 @@ ${message}`;
           const ext = path.extname(fields.image.fileName).toLowerCase();
           const fileName = `promo-${Date.now()}${ext}`;
           
-          // Upload to Supabase Storage
-          imagePath = await uploadToSupabaseStorage(fields.image.data, fileName, 'promotions');
+          // Save locally
+          imagePath = saveImageLocally(fields.image.data, fileName, 'promotions');
         }
         
-        const { data: promotion, error } = await supabase
-          .from('promotions')
-          .insert([{
-            name: fields.title || "",
-            image: imagePath,
-            old_price: fields.oldPrice || "",
-            new_price: fields.price || "",
-            discount: fields.discount || "",
-            link: fields.link || ""
-          }])
-          .select()
-          .single();
+        const promotions = readJSONFile('promotions.json');
+        const newPromotion = {
+          id: generateId(),
+          name: fields.title || "",
+          image: imagePath,
+          old_price: fields.oldPrice || "",
+          new_price: fields.price || "",
+          discount: fields.discount || "",
+          link: fields.link || "",
+          created_at: new Date().toISOString()
+        };
+        promotions.unshift(newPromotion);
+        writeJSONFile('promotions.json', promotions);
         
-        if (error) throw error;
-        return sendJSON(res, 200, { ok: true, promotion });
+        return sendJSON(res, 200, { ok: true, promotion: newPromotion });
       } catch (err) {
         console.error("Error adding promotion:", err);
         return sendJSON(res, 500, { ok: false, error: err.message });
@@ -652,38 +629,34 @@ ${message}`;
     const id = req.url.split('/').pop();
     parseMultipart(req, async (fields) => {
       try {
-        // Get existing promotion
-        const { data: existing } = await supabase
-          .from('promotions')
-          .select('*')
-          .eq('id', id)
-          .single();
-
-        let imagePath = existing?.image || "";
+        const promotions = readJSONFile('promotions.json');
+        const index = promotions.findIndex(p => p.id === id);
+        
+        if (index === -1) {
+          return sendJSON(res, 404, { ok: false, error: "Promotion not found" });
+        }
+        
+        let imagePath = promotions[index].image || "";
         
         // If new image uploaded, use it
         if (fields.image && fields.image.data) {
           const ext = path.extname(fields.image.fileName).toLowerCase();
           const fileName = `promo-${Date.now()}${ext}`;
-          imagePath = await uploadToSupabaseStorage(fields.image.data, fileName, 'promotions');
+          imagePath = saveImageLocally(fields.image.data, fileName, 'promotions');
         }
         
-        const { data: promotion, error } = await supabase
-          .from('promotions')
-          .update({
-            name: fields.title || "",
-            image: imagePath,
-            old_price: fields.oldPrice || "",
-            new_price: fields.price || "",
-            discount: fields.discount || "",
-            link: fields.link || ""
-          })
-          .eq('id', id)
-          .select()
-          .single();
+        promotions[index] = {
+          ...promotions[index],
+          name: fields.title || "",
+          image: imagePath,
+          old_price: fields.oldPrice || "",
+          new_price: fields.price || "",
+          discount: fields.discount || "",
+          link: fields.link || ""
+        };
         
-        if (error) throw error;
-        return sendJSON(res, 200, { ok: true, promotion });
+        writeJSONFile('promotions.json', promotions);
+        return sendJSON(res, 200, { ok: true, promotion: promotions[index] });
       } catch (err) {
         console.error("Error updating promotion:", err);
         return sendJSON(res, 500, { ok: false, error: err.message });
@@ -699,12 +672,9 @@ ${message}`;
     }
     const id = req.url.split('/').pop();
     try {
-      const { error } = await supabase
-        .from('promotions')
-        .delete()
-        .eq('id', id);
-
-      if (error) throw error;
+      const promotions = readJSONFile('promotions.json');
+      const filtered = promotions.filter(p => p.id !== id);
+      writeJSONFile('promotions.json', filtered);
       return sendJSON(res, 200, { ok: true });
     } catch (err) {
       return sendJSON(res, 500, { ok: false, error: err.message });
@@ -717,26 +687,20 @@ ${message}`;
       return sendJSON(res, 401, { ok: false, error: "Unauthorized" });
     }
     try {
-      const { data, error } = await supabase.storage
-        .from('images')
-        .list('products', {
-          limit: 100,
-          sortBy: { column: 'created_at', order: 'desc' }
-        });
-
-      if (error) throw error;
-
-      // Generate public URLs for each image
-      const images = (data || []).map(file => {
-        const { data: urlData } = supabase.storage
-          .from('images')
-          .getPublicUrl(`products/${file.name}`);
+      const uploadsPath = path.join('./public/uploads/products');
+      if (!fs.existsSync(uploadsPath)) {
+        return sendJSON(res, 200, { ok: true, images: [] });
+      }
+      
+      const files = fs.readdirSync(uploadsPath);
+      const images = files.map(file => {
+        const stats = fs.statSync(path.join(uploadsPath, file));
         return {
-          name: file.name,
-          url: urlData.publicUrl,
-          created_at: file.created_at
+          name: file,
+          url: `/uploads/products/${file}`,
+          created_at: stats.birthtime.toISOString()
         };
-      });
+      }).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
       return sendJSON(res, 200, { ok: true, images });
     } catch (err) {
@@ -751,26 +715,20 @@ ${message}`;
       return sendJSON(res, 401, { ok: false, error: "Unauthorized" });
     }
     try {
-      const { data, error } = await supabase.storage
-        .from('images')
-        .list('hero', {
-          limit: 100,
-          sortBy: { column: 'created_at', order: 'desc' }
-        });
-
-      if (error) throw error;
-
-      // Generate public URLs for each image
-      const images = (data || []).map(file => {
-        const { data: urlData } = supabase.storage
-          .from('images')
-          .getPublicUrl(`hero/${file.name}`);
+      const uploadsPath = path.join('./public/uploads/hero');
+      if (!fs.existsSync(uploadsPath)) {
+        return sendJSON(res, 200, { ok: true, images: [] });
+      }
+      
+      const files = fs.readdirSync(uploadsPath);
+      const images = files.map(file => {
+        const stats = fs.statSync(path.join(uploadsPath, file));
         return {
-          name: file.name,
-          url: urlData.publicUrl,
-          created_at: file.created_at
+          name: file,
+          url: `/uploads/hero/${file}`,
+          created_at: stats.birthtime.toISOString()
         };
-      });
+      }).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
       return sendJSON(res, 200, { ok: true, images });
     } catch (err) {
@@ -782,13 +740,8 @@ ${message}`;
   // ==================== GET ALL PRODUCTS ====================
   if (req.url === "/api/products" && req.method === "GET") {
     try {
-      const { data: products, error } = await supabase
-        .from('products')
-        .select('*')
-        .order('sort_order', { ascending: true });
-
-      if (error) throw error;
-      return sendJSON(res, 200, { ok: true, products: products || [] });
+      const products = readJSONFile('products.json');
+      return sendJSON(res, 200, { ok: true, products });
     } catch (err) {
       return sendJSON(res, 500, { ok: false, error: err.message });
     }
@@ -798,24 +751,16 @@ ${message}`;
   if (req.url.match(/\/api\/products\/[a-zA-Z0-9-]+$/) && req.method === "GET") {
     const idOrSlug = req.url.split('/').pop();
     try {
+      const products = readJSONFile('products.json');
+      
       // Try to find by slug first, then by id
-      let { data: product, error } = await supabase
-        .from('products')
-        .select('*')
-        .eq('slug', idOrSlug)
-        .single();
-
+      let product = products.find(p => p.slug === idOrSlug);
+      
       if (!product) {
-        const result = await supabase
-          .from('products')
-          .select('*')
-          .eq('id', idOrSlug)
-          .single();
-        product = result.data;
-        error = result.error;
+        product = products.find(p => p.id === idOrSlug);
       }
 
-      if (error || !product) {
+      if (!product) {
         return sendJSON(res, 404, { ok: false, error: "Product not found" });
       }
       return sendJSON(res, 200, { ok: true, product });
@@ -834,25 +779,24 @@ ${message}`;
         // Use existing image URL or upload new main image
         let mainImageUrl = "";
         if (fields.mainImageUrl) {
-          // Use existing stored image URL
           mainImageUrl = fields.mainImageUrl;
           console.log('Using existing image URL:', mainImageUrl);
         } else if (fields.mainImage && fields.mainImage.data) {
           const ext = path.extname(fields.mainImage.fileName).toLowerCase();
           const fileName = `product-main-${Date.now()}${ext}`;
-          mainImageUrl = await uploadToSupabaseStorage(fields.mainImage.data, fileName, 'products');
-          console.log('Uploaded main image to Supabase:', mainImageUrl);
+          mainImageUrl = saveImageLocally(fields.mainImage.data, fileName, 'products');
+          console.log('Saved main image locally:', mainImageUrl);
         }
 
-        // Upload additional images to Supabase Storage
+        // Save additional images locally
         const imageUrls = [];
         for (let i = 0; i < 10; i++) {
           const fieldName = `image${i}`;
           if (fields[fieldName] && fields[fieldName].data) {
             const ext = path.extname(fields[fieldName].fileName).toLowerCase();
             const fileName = `product-${Date.now()}-${i}${ext}`;
-            const url = await uploadToSupabaseStorage(fields[fieldName].data, fileName, 'products');
-            console.log('Uploaded image to Supabase:', url);
+            const url = saveImageLocally(fields[fieldName].data, fileName, 'products');
+            console.log('Saved image locally:', url);
             imageUrls.push(url);
           }
         }
@@ -867,25 +811,26 @@ ${message}`;
           }
         }
 
-        const { data: product, error } = await supabase
-          .from('products')
-          .insert([{
-            name: fields.name || "",
-            slug: fields.slug || fields.name?.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') || `product-${Date.now()}`,
-            category: fields.category || "tractoare",
-            price: fields.price || "",
-            description: fields.description || "",
-            specifications,
-            main_image: mainImageUrl,
-            images: imageUrls,
-            is_active: true,
-            sort_order: parseInt(fields.sort_order) || 0
-          }])
-          .select()
-          .single();
-
-        if (error) throw error;
-        return sendJSON(res, 200, { ok: true, product });
+        const products = readJSONFile('products.json');
+        const newProduct = {
+          id: generateId(),
+          name: fields.name || "",
+          slug: fields.slug || fields.name?.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') || `product-${Date.now()}`,
+          category: fields.category || "tractoare",
+          price: fields.price || "",
+          description: fields.description || "",
+          specifications,
+          main_image: mainImageUrl,
+          images: imageUrls,
+          is_active: true,
+          sort_order: parseInt(fields.sort_order) || 0,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+        products.push(newProduct);
+        writeJSONFile('products.json', products);
+        
+        return sendJSON(res, 200, { ok: true, product: newProduct });
       } catch (err) {
         console.error("Error adding product:", err);
         return sendJSON(res, 500, { ok: false, error: err.message });
@@ -902,6 +847,13 @@ ${message}`;
     const id = req.url.split('/').pop();
     parseMultipart(req, async (fields) => {
       try {
+        const products = readJSONFile('products.json');
+        const index = products.findIndex(p => p.id === id);
+        
+        if (index === -1) {
+          return sendJSON(res, 404, { ok: false, error: "Product not found" });
+        }
+
         const updateData = {
           updated_at: new Date().toISOString()
         };
@@ -915,14 +867,14 @@ ${message}`;
         if (fields.sort_order) updateData.sort_order = parseInt(fields.sort_order);
         if (fields.is_active !== undefined) updateData.is_active = fields.is_active === 'true';
 
-        // Upload new main image if provided (to Supabase) or use existing URL
+        // Upload new main image if provided or use existing URL
         if (fields.mainImageUrl) {
           updateData.main_image = fields.mainImageUrl;
           console.log('Using existing image URL for update:', fields.mainImageUrl);
         } else if (fields.mainImage && fields.mainImage.data) {
           const ext = path.extname(fields.mainImage.fileName).toLowerCase();
           const fileName = `product-main-${Date.now()}${ext}`;
-          updateData.main_image = await uploadToSupabaseStorage(fields.mainImage.data, fileName, 'products');
+          updateData.main_image = saveImageLocally(fields.mainImage.data, fileName, 'products');
         }
 
         // Handle additional images
@@ -932,13 +884,13 @@ ${message}`;
           } catch (e) {}
         }
 
-        // Upload new additional images to Supabase
+        // Upload new additional images
         for (let i = 0; i < 10; i++) {
           const fieldName = `newImage${i}`;
           if (fields[fieldName] && fields[fieldName].data) {
             const ext = path.extname(fields[fieldName].fileName).toLowerCase();
             const fileName = `product-${Date.now()}-${i}${ext}`;
-            const url = await uploadToSupabaseStorage(fields[fieldName].data, fileName, 'products');
+            const url = saveImageLocally(fields[fieldName].data, fileName, 'products');
             if (!updateData.images) updateData.images = [];
             updateData.images.push(url);
           }
@@ -951,15 +903,10 @@ ${message}`;
           } catch (e) {}
         }
 
-        const { data: product, error } = await supabase
-          .from('products')
-          .update(updateData)
-          .eq('id', id)
-          .select()
-          .single();
-
-        if (error) throw error;
-        return sendJSON(res, 200, { ok: true, product });
+        products[index] = { ...products[index], ...updateData };
+        writeJSONFile('products.json', products);
+        
+        return sendJSON(res, 200, { ok: true, product: products[index] });
       } catch (err) {
         console.error("Error updating product:", err);
         return sendJSON(res, 500, { ok: false, error: err.message });
@@ -975,12 +922,9 @@ ${message}`;
     }
     const id = req.url.split('/').pop();
     try {
-      const { error } = await supabase
-        .from('products')
-        .delete()
-        .eq('id', id);
-
-      if (error) throw error;
+      const products = readJSONFile('products.json');
+      const filtered = products.filter(p => p.id !== id);
+      writeJSONFile('products.json', filtered);
       return sendJSON(res, 200, { ok: true });
     } catch (err) {
       return sendJSON(res, 500, { ok: false, error: err.message });
@@ -992,13 +936,8 @@ ${message}`;
   // GET ALL TESTIMONIALS
   if (req.url === "/api/testimonials" && req.method === "GET") {
     try {
-      const { data, error } = await supabase
-        .from('testimonials')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      return sendJSON(res, 200, { ok: true, testimonials: data });
+      const testimonials = readJSONFile('testimonials.json');
+      return sendJSON(res, 200, { ok: true, testimonials });
     } catch (err) {
       return sendJSON(res, 500, { ok: false, error: err.message });
     }
@@ -1019,18 +958,19 @@ ${message}`;
           return sendJSON(res, 400, { ok: false, error: "Missing required fields" });
         }
 
-        const { data, error } = await supabase
-          .from('testimonials')
-          .insert([{
-            client_name,
-            content,
-            rating: parseInt(rating),
-            location: location || null
-          }])
-          .select();
-
-        if (error) throw error;
-        return sendJSON(res, 201, { ok: true, testimonial: data[0] });
+        const testimonials = readJSONFile('testimonials.json');
+        const newTestimonial = {
+          id: generateId(),
+          client_name,
+          content,
+          rating: parseInt(rating),
+          location: location || null,
+          created_at: new Date().toISOString()
+        };
+        testimonials.unshift(newTestimonial);
+        writeJSONFile('testimonials.json', testimonials);
+        
+        return sendJSON(res, 201, { ok: true, testimonial: newTestimonial });
       } catch (err) {
         return sendJSON(res, 500, { ok: false, error: err.message });
       }
@@ -1050,19 +990,23 @@ ${message}`;
       try {
         const { client_name, content, rating, location } = JSON.parse(body);
         
-        const { data, error } = await supabase
-          .from('testimonials')
-          .update({
-            client_name,
-            content,
-            rating: parseInt(rating),
-            location: location || null
-          })
-          .eq('id', id)
-          .select();
-
-        if (error) throw error;
-        return sendJSON(res, 200, { ok: true, testimonial: data[0] });
+        const testimonials = readJSONFile('testimonials.json');
+        const index = testimonials.findIndex(t => t.id === id);
+        
+        if (index === -1) {
+          return sendJSON(res, 404, { ok: false, error: "Testimonial not found" });
+        }
+        
+        testimonials[index] = {
+          ...testimonials[index],
+          client_name,
+          content,
+          rating: parseInt(rating),
+          location: location || null
+        };
+        
+        writeJSONFile('testimonials.json', testimonials);
+        return sendJSON(res, 200, { ok: true, testimonial: testimonials[index] });
       } catch (err) {
         return sendJSON(res, 500, { ok: false, error: err.message });
       }
@@ -1077,12 +1021,9 @@ ${message}`;
     }
     const id = req.url.split('/').pop();
     try {
-      const { error } = await supabase
-        .from('testimonials')
-        .delete()
-        .eq('id', id);
-
-      if (error) throw error;
+      const testimonials = readJSONFile('testimonials.json');
+      const filtered = testimonials.filter(t => t.id !== id);
+      writeJSONFile('testimonials.json', filtered);
       return sendJSON(res, 200, { ok: true });
     } catch (err) {
       return sendJSON(res, 500, { ok: false, error: err.message });
@@ -1191,7 +1132,7 @@ server.listen(PORT, () => {
   console.log(`${'='.repeat(50)}`);
   console.log(`📍 Environment: ${env}`);
   console.log(`🌐 Server: http://localhost:${PORT}`);
-  console.log(`🗄️  Database: Supabase (${SUPABASE_URL})`);
+  console.log(`💾 Database: JSON File Storage (${DATA_DIR})`);
   console.log(`📧 Email: ${hasBrevoConfig ? 'Brevo API ✓' : 'Not configured'}`);
   if (isProduction) {
     console.log(`📦 Frontend: Serving from ${FRONTEND_DIST}`);
