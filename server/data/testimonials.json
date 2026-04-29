@@ -1,1 +1,65 @@
-[]
+[
+  {
+    "id": "7f2a3b30-5d3d-4aa8-a081-26da7a777fff",
+    "client_name": "Vasile Dima",
+    "content": "Folosești un tractor Hanwo o dată și nu mai vrei altceva. Raportul calitate-preț este excelent. Am recomandat deja trei prieteni fermieri și toți sunt mulțumiți.",
+    "rating": 5,
+    "location": "Buzău",
+    "created_at": "2025-12-22T21:37:24.846671+00:00",
+    "updated_at": "2025-12-22T21:37:24.846671+00:00"
+  },
+  {
+    "id": "2cd272d5-38c3-44e9-8c74-dfd5c466706b",
+    "client_name": "Ion Popescu",
+    "content": "Tractorul Hanwo pe care l-am cumpărat anul trecut funcționează impecabil. Consumul este redus, iar puterea este mai mult decât suficientă pentru terenul meu de 15 hectare. Service-ul a fost profesionist din prima zi.",
+    "rating": 5,
+    "location": "Suceava",
+    "created_at": "2025-12-22T21:37:24.846671+00:00",
+    "updated_at": "2025-12-22T21:37:24.846671+00:00"
+  },
+  {
+    "id": "94ea737a-df87-4935-b961-3306e285e530",
+    "client_name": "Maria Tănase",
+    "content": "Am trecut la Hanwo după ce m-am săturat de reparații constante la tractorul vechi. Diferența este uriașă - fiabilitate, consum redus și dotări moderne care îmi fac munca mult mai ușoară.",
+    "rating": 5,
+    "location": "Cluj",
+    "created_at": "2025-12-22T21:37:24.846671+00:00",
+    "updated_at": "2025-12-22T21:37:24.846671+00:00"
+  },
+  {
+    "id": "d38509ab-7634-48b1-9aca-7c255807db95",
+    "client_name": "Cristina Pavel",
+    "content": "Pentru noi, investiția în Hanwo a fost cea mai bună decizie. Consumul redus de combustibil ne-a scăzut costurile cu 30%, iar fiabilitatea înseamnă mai puțin timp pierdut cu reparații.",
+    "rating": 5,
+    "location": "Brașov",
+    "created_at": "2025-12-22T21:37:24.846671+00:00",
+    "updated_at": "2025-12-22T21:37:24.846671+00:00"
+  },
+  {
+    "id": "19b2456c-18de-43d0-9224-9390405f0933",
+    "client_name": "Elena Ionescu",
+    "content": "Service-ul lor este rapid și profesionist. Am avut nevoie de câteva piese de schimb și au ajuns în 2 zile. Echipa de suport este mereu disponibilă să ajute.",
+    "rating": 5,
+    "location": "Iași",
+    "created_at": "2025-12-22T21:37:24.846671+00:00",
+    "updated_at": "2025-12-22T21:37:24.846671+00:00"
+  },
+  {
+    "id": "6b2189e2-2cfa-4a2c-ba12-7fc2a52496c8",
+    "client_name": "Mihai Stoica",
+    "content": "Sunt foarte mulțumit de modul în care Hanwo a combinat tehnologia modernă cu un design robust. Tractorul meu de 65 CP trage orice tip de echipament fără probleme.",
+    "rating": 5,
+    "location": "Arad",
+    "created_at": "2025-12-22T21:37:24.846671+00:00",
+    "updated_at": "2025-12-22T21:37:24.846671+00:00"
+  },
+  {
+    "id": "a25b98fd-7883-4e0d-a08d-ba7410ad9364",
+    "client_name": "ss",
+    "content": "sws",
+    "rating": 5,
+    "location": "sx",
+    "created_at": "2025-12-22T21:34:43.456963+00:00",
+    "updated_at": "2025-12-22T21:34:43.456963+00:00"
+  }
+]

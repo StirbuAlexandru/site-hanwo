@@ -1,1 +1,24 @@
-[]
+[
+  {
+    "id": "39b5364c-5c51-4682-88cf-3a32ab7d2f12",
+    "name": "Agrorus",
+    "email": "agrorus.brend@gmail.com",
+    "phone": "0755458160",
+    "message": "Doresc tractor",
+    "source": "product-page",
+    "product": "Tractor 65 CAI HANWO 604, 4X4, STAGE 5+CARTE RAR INCLUSA",
+    "is_read": true,
+    "created_at": "2026-01-09T09:34:15.82201+00:00"
+  },
+  {
+    "id": "090bc74e-9fee-4ef0-b764-a1018faf36c1",
+    "name": "Mihai Liahu",
+    "email": "corne.leahu@gmail.com",
+    "phone": "0755458160",
+    "message": "ry67i",
+    "source": "product-page",
+    "product": "Tractor 65 CAI HANWO 604, 4X4, STAGE 5+CARTE RAR INCLUSA",
+    "is_read": true,
+    "created_at": "2026-01-05T10:16:51.091035+00:00"
+  }
+]
