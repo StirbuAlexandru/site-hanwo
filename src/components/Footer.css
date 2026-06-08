@@ -173,6 +173,25 @@
   display: none;
 }
 
+.footer-creator {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.footer-creator a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.footer-creator a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
 /* ===================== RESPONSIVE ===================== */
 @media (max-width: 1024px) {
   .footer-container {

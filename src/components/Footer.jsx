@@ -80,6 +80,9 @@ export default function Footer() {
         </div>
 
 
+        <div className="footer-creator">
+          Website creat de <a href="https://webliftdigital.ro" target="_blank" rel="noopener noreferrer">WebLift Digital</a>
+        </div>
       </div>
     </footer>
   );
